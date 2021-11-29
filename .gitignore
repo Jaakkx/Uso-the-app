@@ -47,62 +47,62 @@ Temporary Items
 .apdisk
 
 ### react ###
-.DS_*
+front/.DS_*
 *.log
 logs
 **/*.backup.*
 **/*.back.*
 
-node_modules
-bower_components
+front/node_modules
+front/bower_components
 
 *.sublime*
 
-psd
-thumb
-sketch
+front/psd
+front/thumb
+front/sketch
 
 ### Symfony ###
 # Cache and logs (Symfony2)
-/app/cache/*
-/app/logs/*
-!app/cache/.gitkeep
-!app/logs/.gitkeep
+back/app/cache/*
+back/app/logs/*
+back/!app/cache/.gitkeep
+back/!app/logs/.gitkeep
 
 # Email spool folder
-/app/spool/*
+back/app/spool/*
 
 # Cache, session files and logs (Symfony3)
-/var/cache/*
-/var/logs/*
-/var/sessions/*
-!var/cache/.gitkeep
-!var/logs/.gitkeep
-!var/sessions/.gitkeep
+back/var/cache/*
+back/var/logs/*
+back/var/sessions/*
+back/!var/cache/.gitkeep
+back/!var/logs/.gitkeep
+back/!var/sessions/.gitkeep
 
 # Logs (Symfony4)
-/var/log/*
-!var/log/.gitkeep
+back/var/log/*
+back/!var/log/.gitkeep
 
 # Parameters
-/app/config/parameters.yml
-/app/config/parameters.ini
+back/app/config/parameters.yml
+back/app/config/parameters.ini
 
 # Managed by Composer
-/app/bootstrap.php.cache
-/var/bootstrap.php.cache
-/bin/*
-!bin/console
-!bin/symfony_requirements
-/vendor/
+back/app/bootstrap.php.cache
+back/var/bootstrap.php.cache
+back/bin/*
+back/!bin/console
+back/!bin/symfony_requirements
+back/vendor/
 
 # Assets and user uploads
-/web/bundles/
-/web/uploads/
+back//web/bundles/
+back/web/uploads/
 
 # PHPUnit
-/app/phpunit.xml
-/phpunit.xml
+back/app/phpunit.xml
+back/phpunit.xml
 
 # Build data
 /build/
@@ -147,3 +147,26 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/react,windows,macos,linux,symfony
+*/**/.env
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# production
+/build
+
+# misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
