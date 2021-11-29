@@ -72,8 +72,9 @@ class OsuService
 					],
 				]);
 				$userId = json_decode($responseUserId->getContent(), true)["id"];
+				$musicLimit = 4;
 
-				$osuSearchUserUrl = sprintf("https://osu.ppy.sh/api/v2/users/%s/beatmapsets/most_played?limit=20", $userId);
+				$osuSearchUserUrl = sprintf("https://osu.ppy.sh/api/v2/users/%s/beatmapsets/most_played?limit=%s", $userId, $musicLimit);
 
 				$responseBeatmaps = $this->httpClient->request('GET', $osuSearchUserUrl, [
 					'headers'=>[
@@ -88,10 +89,16 @@ class OsuService
 						'scope' => 'public',
 					],
 				]);
-
-
+		$musicTitleTab = [];
+		$musicInfos = json_decode($responseBeatmaps->getContent(), true);
+		foreach ($musicInfos as $key => $v){
+			$musicTitle = str_replace(" (TV Size)", "", $musicInfos[$key]["beatmapset"]["title"]);
+			var_dump($musicTitle);
+			array_push($musicTitleTab, $musicTitle);
+		}
 		// return json_decode($responseUserId->getContent(), true);
-		return json_decode($responseBeatmaps->getContent(), true);
+		// return json_decode($responseBeatmaps->getContent(), true);
+		return $musicTitleTab;
 	}
 
 	// public function blabla(): array

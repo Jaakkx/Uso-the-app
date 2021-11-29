@@ -39,11 +39,8 @@ class DefaultController extends AbstractController
      */
     public function index(): Response
     {
-        // $pages = $this->notionService->getNotionPages();
         $osuT = $this->osuService->getOsuToken();
-        // return $this->json('hello world');
         return $this->json($osuT);
-        // return $this->json($osuT);
     }
 
         /**
