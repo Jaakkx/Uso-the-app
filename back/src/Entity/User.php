@@ -22,7 +22,7 @@ class User
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $username;
+    // private $username;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -44,17 +44,17 @@ class User
         return $this->id;
     }
 
-    public function getUsername(): ?string
-    {
-        return $this->username;
-    }
+    // public function getUsername(): ?string
+    // {
+    //     return $this->username;
+    // }
 
-    public function setUsername(string $username): self
-    {
-        $this->username = $username;
+    // public function setUsername(string $username): self
+    // {
+    //     $this->username = $username;
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
     public function getEmail(): ?string
     {
