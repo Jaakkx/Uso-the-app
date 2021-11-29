@@ -105,20 +105,20 @@ back/app/phpunit.xml
 back/phpunit.xml
 
 # Build data
-/build/
+back/build/
 
 # Composer PHAR
-/composer.phar
+back/composer.phar
 
 # Backup entities generated with doctrine:generate:entities command
 **/Entity/*~
 
 # Embedded web-server pid file
-/.web-server-pid
+back/.web-server-pid
 
 ### Symfony Patch ###
-/web/css/
-/web/js/
+back/web/css/
+back/web/js/
 
 ### Windows ###
 # Windows thumbnail cache files
