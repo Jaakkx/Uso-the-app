@@ -1,7 +1,7 @@
 import React from "react";
 import logo from "./logo.svg";
 import "./App.css";
-import Page from "./components/Page";
+import LoginPage from "./components/LoginPage";
 import { User } from "./decl";
 import Login from "./components/Login";
 // import 'antd/dist/antd.css';
@@ -18,6 +18,7 @@ class App extends React.Component<{}, AppState> {
 
   render() {
     const { pages, user } = this.state;
+    console.log('yousk2');
     return (
       <div className="App">
         <Login

@@ -5,7 +5,7 @@ export type PagesProps = {
     user: User | undefined,
 }
 
-class Page extends React.Component<PagesProps>{
+class LoginPage extends React.Component<PagesProps>{
 
     render(){
         const { user } = this.props;
@@ -19,4 +19,4 @@ class Page extends React.Component<PagesProps>{
 
 }
 
-export default Page;
+export default LoginPage;
