@@ -1,17 +1,33 @@
-import React from 'react';
-import logo from './logo.svg';
-import Button from './components/Button';
-import './App.css';
+import React from "react";
+import logo from "./logo.svg";
+import "./App.css";
+import Page from "./components/Page";
+import { Utilisateur } from "./decl";
+import Login from "./components/Login";
+// import 'antd/dist/antd.css';
 
-export type AppProps = {
+export type AppState = {
+  user: Utilisateur | undefined;
+};
 
-}
+class App extends React.Component<{}, AppState> {
+  state = {
+    pages: [],
+    user: undefined,
+  };
 
-class App extends React.Component<AppProps>{
   render() {
-      return(
-        <Button />
-      );
+    const { pages, user } = this.state;
+    console.log('yousk2');
+    return (
+      <div className="App">
+        <Login
+          onSuccess={(user) => {
+            this.setState({ user: user });
+          }}
+        />
+      </div>
+    );
   }
 }
 
