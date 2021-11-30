@@ -107,6 +107,8 @@ class DefaultController extends AbstractController
         ];
 
         return $this->json($returnArray);
+        
+        return $this->json($params['email']);
     }
 
     /**

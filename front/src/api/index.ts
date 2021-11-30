@@ -1,7 +1,7 @@
 import axios from 'axios';
-import { User } from '../decl';
+import { Utilisateur } from '../decl';
 
-export const postLogin = async (user: User): Promise<User> => {
+export const postLogin = async (user: Utilisateur): Promise<Utilisateur> => {
     try{
         const res = await axios.post(
             `${process.env.REACT_APP_BASE_URL}/login`,

@@ -1,8 +1,8 @@
 import React from "react";
-import { User } from "../decl";
+import { Utilisateur } from "../decl";
 
 export type PagesProps = {
-    user: User | undefined,
+    user: Utilisateur | undefined,
 }
 
 class LoginPage extends React.Component<PagesProps>{

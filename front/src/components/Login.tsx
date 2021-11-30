@@ -1,20 +1,18 @@
 import React from "react";
-import { User } from "../decl";
+import { Utilisateur } from "../decl";
 import { postLogin } from "../api";
 
 export type LoginProps = {
-  onSuccess: (user: User) => void;
+  onSuccess: (user: Utilisateur) => void;
 };
 
 export type LoginState = {
   email: string;
-  isModalVisible: boolean;
 };
 
 class Login extends React.Component<LoginProps, LoginState> {
   state = {
     email: "",
-    isModalVisible: true,
   };
 
   handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -23,16 +21,20 @@ class Login extends React.Component<LoginProps, LoginState> {
     const { email } = this.state;
 
     try {
-      const loggedUser = await postLogin({ email });
+      const loggedUser = await postLogin({
+      email,
+      spotifyToken: "",
+      osuToken: "",
+      playlistsLinks: []
+    });
       this.props.onSuccess(loggedUser);
-      this.setState({ isModalVisible: false });
     } catch (error) {
       alert(error);
     }
   };
 
   render() {
-    const { email, isModalVisible } = this.state;
+    const { email } = this.state;
 
     return (
         <form onSubmit={this.handleFormSubmit}>

@@ -1,13 +1,13 @@
 import React from "react";
 import logo from "./logo.svg";
 import "./App.css";
-import LoginPage from "./components/LoginPage";
-import { User } from "./decl";
+import Page from "./components/Page";
+import { Utilisateur } from "./decl";
 import Login from "./components/Login";
 // import 'antd/dist/antd.css';
 
 export type AppState = {
-  user: User | undefined;
+  user: Utilisateur | undefined;
 };
 
 class App extends React.Component<{}, AppState> {
