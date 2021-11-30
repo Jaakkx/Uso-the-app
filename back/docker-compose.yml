@@ -6,8 +6,8 @@ services:
         links:
           - "project-mariadb:mariadb.host"
         volumes:
-            - "./:/h3-project:rw"
-        working_dir: /h3-project
+            - "./:/project:rw"
+        working_dir: /project
         restart: always
     project-nginx:
         image: "nginx:1-alpine"
@@ -17,9 +17,9 @@ services:
         ports:
           - 8081:80
         volumes:
-            - "./:/h3-project:rw"
+            - "./:/project:rw"
             - "./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:r"
-        working_dir: /h3-project
+        working_dir: /project
         restart: always
     project-mariadb:
         image: "mariadb:10.6"

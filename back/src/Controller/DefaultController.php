@@ -84,35 +84,31 @@ class DefaultController extends AbstractController
     {
         $params = json_decode($request->getContent(), true);
 
-        if(!isset($params['username']) || empty($params['username'])){
-            throw new HttpException(400, "Missing username parameters");
-        }
-        if(!isset($params['email']) || empty($params['email'])){
-            throw new HttpException(400, "Missing email parameters");
+        if (!isset($params['email']) || empty($params['email'])) {
+            throw new HttpException(400, 'Missing email parameter.');
         }
 
-        $entitymanager = $this->getDoctrine()->getManager();
+        $entityManager = $this->getDoctrine()->getManager();
 
-        $user = $entitymanager->getRepository(User::class)->findOneByEmail($params['email']);
+        $user = $entityManager->getRepository(User::class)->findOneByEmail($params['email']);
 
-        if(null == $user){
+        if (null === $user) {
             $user = new User();
         }
 
-        $user = new User();
-        $user->setUsername($params['username'])
-        ->setEmail($params['email']);
+        $user->setEmail($params['email']);
 
-        $entitymanager->persist($user);
-        $entitymanager->flush();
+        $entityManager->persist($user);
+        $entityManager->flush();
 
         $returnArray = [
             'id' => $user->getId(),
-            'username' => $user->getUsername(),
             'email' => $user->getEmail(),
         ];
 
-        return $this->json($params);
+        return $this->json($returnArray);
+        
+        return $this->json($params['email']);
     }
 
     /**
