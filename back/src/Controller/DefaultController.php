@@ -68,37 +68,6 @@ class DefaultController extends AbstractController
 		return $this->json($osuT);
 	}
 
-		/**
-	 * @Route("/savepages", name="savePages")
-	 */
-	public function savePages(): Response
-	{
-		$this->notionService->storeNotionPages();
-
-		return $this->json("Notion pages saved.");
-	}
-
-		/**
-	 * @Route("/notionpages", name="notionPages")
-	 */
-	public function getNotionPages(): Response
-	{
-		$pages = $this->getDoctrine()->getRepository(NotionPage::class)->findAll();
-
-		$returnArray = [];
-
-		/** @var NotionPage $page */
-		foreach($pages as $page){
-			$returnArray[] = [
-				'id' => $page -> getId(),
-				'notionId' => $page->getNotionId(),
-				'title' => $page->getTitle(),
-				'creationDate' => $page->getCreationDate()->format(DATE_ATOM),
-			];
-		}
-		return $this->json($returnArray);
-	}
-
 	/**
 	 * @Route("/login", name="login")
 	 */
