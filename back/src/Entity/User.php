@@ -22,6 +22,11 @@ class User
      */
     private $tokenSpotify;
 
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $token_user;
+
 
     public function getId(): ?int
     {
@@ -36,6 +41,18 @@ class User
     public function setTokenSpotify(string $tokenSpotify): self
     {
         $this->tokenSpotify = $tokenSpotify;
+
+        return $this;
+    }
+
+    public function getTokenUser(): ?string
+    {
+        return $this->token_user;
+    }
+
+    public function setTokenUser(string $token_user): self
+    {
+        $this->token_user = $token_user;
 
         return $this;
     }
