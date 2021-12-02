@@ -64,8 +64,8 @@ class DefaultController extends AbstractController
 	 */
 	public function index(): Response
 	{
-		$osuT = $this->osuService->getOsuToken();
-		return $this->json($osuT);
+		//$osuT = $this->osuService->getOsuToken();
+		//return $this->json($osuT);
 	}
 
 	/**
@@ -128,6 +128,21 @@ class DefaultController extends AbstractController
 	public function lol(): Response
 	{
 		return $this->json("heyo");
+		// return $this->json($spotifyAccessToken);
+	}
+
+    /**
+	 * @Route("/pseudo", name="pseudo")
+	 */
+	public function pseudo(Request $request): Response
+	{
+        $params = json_decode($request->getContent(), true);
+        
+        if(!isset($params["pseudo"]) || empty($params['pseudo'])){
+            throw new HttpException(400, 'Missing pseudo parameter.');
+        }
+        // $this->osuService->getOsuToken($params['pseudo']);
+		return $this->json($this->osuService->getOsuToken($params['pseudo']));
 		// return $this->json($spotifyAccessToken);
 	}
 
