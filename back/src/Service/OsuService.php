@@ -51,7 +51,8 @@ class OsuService
 		$token = json_decode($response->getContent(), true)["access_token"];
 		$authorizationHeader = sprintf('Bearer %s', $token);
 		// A DEFINIR EN FRONT
-		$osuUserPseudo = $pseudo;
+		// $osuUserPseudo = $pseudo;
+		$osuUserPseudo = "yosh1ko";
 		$osuUserIdUrl = $osuUserUrl . $osuUserPseudo;
 		$responseUserId = $this->httpClient->request('GET', $osuUserIdUrl, [
 			'headers'=>[
@@ -95,6 +96,14 @@ class OsuService
 			$musicTitle = str_replace(" (TV edit)", "", $musicTitle);
 			$musicTitle = str_replace(" [TV Size]", "", $musicTitle);
 			$musicTitle = str_replace(" [Dictate Edit]", "", $musicTitle);
+			$musicTitle = str_replace(" (Speed Up Ver.)", "", $musicTitle);
+			$musicTitle = str_replace(" (Swing Arrangement)", "", $musicTitle);
+			$musicTitle = str_replace(' (From "Kaguya-sama: Love is War")', "", $musicTitle);
+			$musicTitle = str_replace('[ISORA arrange]', "", $musicTitle);
+			// $musicTitle = str_replace(" 〜NARUTO OPENING MIX〜", "", $musicTitle);
+			if (strpos($musicTitle, "feat")){
+				$musicTitle = stristr($musicTitle, " feat", true);
+			}
 			$musicId = $musicInfos[$key]["beatmap"]["beatmapset_id"];
 			// $musicId = $musicInfos[$key]["beatmap_id"];
 			array_push($musicTitleTab, ["id" =>$musicId, "titre" => $musicTitle]);
