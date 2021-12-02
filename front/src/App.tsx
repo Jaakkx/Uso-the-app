@@ -3,7 +3,8 @@ import logo from "./logo.svg";
 import "./App.css";
 import OsuPage from "./components/OsuPage";
 import Banner from "./components/Banner";
-// import 'antd/dist/antd.css';
+import PlaylistPage from "./components/PlaylistPage";
+import { Link } from "react-router-dom";
 
 export type AppState = {
   searchName: string | undefined;
@@ -19,7 +20,9 @@ class App extends React.Component<{}, AppState> {
     return (
       <div className="App">
         <Banner />
-        <OsuPage />
+        {/* <Link to="/playlist-creator">Connexion à Spotify</Link> */}
+        <a href="http://localhost:8081/oauth">Connexion à Spotify</a>
+        {/* <PlaylistPage /> */}
       </div>
     );
   }

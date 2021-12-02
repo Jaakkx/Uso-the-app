@@ -1,7 +1,6 @@
 import React from "react";
 import { getOsuPseudo } from "../api";
-import { OsuUser } from "../decl/osuUser.decl";
-import OsuPage from "./OsuPage";
+import search from "../assets/search.svg"
 
 export type State = {
     pseudo: string,
@@ -24,7 +23,8 @@ class SearchOsu extends React.Component{
         const { pseudo } = this.state;
 
         try {
-            
+
+            this.setState({musiquesList:[]});
             const login = await getOsuPseudo({ pseudo });
             this.setState({musiquesList: login});
 
@@ -35,23 +35,31 @@ class SearchOsu extends React.Component{
 
     render() {
         return(
-            <div>
-                <form
-                    onSubmit={this.handleSubmit}
-                >
-                    <input
-                        name="osuPseudo"
-                        type="text"
-                        onChange={this.onChange}
+            <div className="bloc2">
+                <div className="header">
+                    <h2>Musiques Osu</h2>
+                    <form
+                        onSubmit={this.handleSubmit}
+                        className="osuForm"
                     >
-                    </input>
-                    <input type="submit" value="Submit"></input>
-                </form>
+                        <input
+                            name="osuPseudo"
+                            type="text"
+                            className="osuPseudo"
+                            placeholder="Pseudo Joueur"
+                            onChange={this.onChange}
+                        >
+                        </input>
+                        <button type="submit" className={"submitButton "} >                        
+                            <img src={search} alt="Search Icone"/>
+                        </button>
+                    </form>
+                </div>
 
-                <div>
+                <div className="scroll2">
                     {
                         this.state.musiquesList.map(item => (
-                            <div key={item['titre']}>
+                            <div key={item['titre']} className="music">
                                 {item['titre']}
                             </div>
                         ))

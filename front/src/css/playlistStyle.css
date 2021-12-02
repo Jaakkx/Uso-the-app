@@ -1,0 +1,168 @@
+/***********************************************************************************/
+
+.bloc1{
+    border: solid black 1px;
+    border-top-left-radius: 170px 170px;
+    height: 88vh;
+    width: 95vw;
+    position: absolute; bottom: 0px; right: 0px;
+    background-color: white;
+    z-index: 0;
+}
+.scroll1{
+    height: 50%;
+    width: 60%;
+    border-top: black solid 1px;
+    position: absolute; bottom: 0px; left: 0px;
+    overflow: scroll;
+}
+.music{
+    height: 60px;
+    border-top: solid black 1px;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+}
+.music:hover{
+    background-color: #FD7E40;
+}
+.bloc2{
+    display: flex;
+    flex-direction: column  ;
+    border: solid black 1px;
+    border-right: 0;
+    border-bottom: 0;
+    border-top-left-radius: 170px 170px;
+    height: 66.44%;
+    width: 48%;
+    position: absolute; bottom: 0px; right: 0px;
+    background-color: white;
+    z-index: 0;
+}
+
+.bloc2 .header{
+    margin-top: 97px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+.scroll2{
+    height: 48%;
+    width: 100%;
+    position: absolute; bottom: 0px; left: 0px;
+    overflow: scroll;
+}
+
+h4{
+    padding-left: 50px;
+    padding-right: 50px;
+}
+.musiqueOsu{
+    display: flex;
+    margin-top: 80px;
+    margin-left: 60px;
+}
+
+input{
+    all: unset;
+    margin-top: auto;
+    margin-bottom: auto;
+    width: 174px;
+    height: 35px;
+    margin-left: 20px;
+    border-radius: 20px;
+    border: 1px black solid;
+}
+
+.osuPseudo{
+    margin:0;
+    border:none;
+    height: auto;
+    width: 80%;
+}
+
+.profil{
+    display: flex;
+    margin-top: 20px;
+    margin-left: 60px;
+}
+.profilName{
+
+    margin-left: 50px;
+    padding-top: 20px;
+}
+.ppimg{
+    height: 90px;
+    border-radius: 90px;
+}
+/**************************************************************************************/
+/*boutton*/
+
+button.submitButton{
+    border: none;
+    padding: 0.5em;
+    margin: 0;
+}
+
+button.submitButton:hover{
+    background-color: transparent;
+}
+
+.name{
+    border: solid #4A7DF2 1px;
+    background-color: white;
+    padding: 10px;
+    padding-left: 30px;
+    padding-right: 30px;
+    border-radius: 50px;
+    margin-left: 50px;
+    font-size: 24px;
+    width: 250px;
+}
+.boutton{
+    position: relative; 
+    margin-top: 5%;
+    margin-left: 0%;
+    display: flex;
+}
+
+/**************************************************************************************/
+/*Formulaire*/
+.osuForm{
+
+    display: flex;
+    margin-left: 60px;
+
+    border: solid 1px black;
+    border-radius: 20px;
+}
+
+/**************************************************************************************/
+@media screen and (min-width: 375px) {
+
+    .nav-toggle {
+        margin-block: 1rem;
+        margin-inline: 2rem;
+    }
+}
+
+@media screen and (min-width: 840px) {
+    .navbar {
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .nav-toggle {
+        display: none;
+    }
+
+    .nav-links {
+        display: block;
+        width: unset;
+        background-color: white;
+    }
+    ul {
+        display: flex;
+    }
+}

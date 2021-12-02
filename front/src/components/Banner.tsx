@@ -1,5 +1,7 @@
 import React from "react";
-import "../css/style.css";
+import { ReactComponent as Logo } from '../assets/uso.svg';
+import menu from '../assets/menu.svg';
+import { Link } from "react-router-dom";
 
 class Banner extends React.Component{
     state={
@@ -17,7 +19,6 @@ class Banner extends React.Component{
                 colorValue = Math.floor(Math.random() * (color.length ));
             }else{
                 this.setState({oldColor:colorValue});
-                console.log(colorValue);
                 this.setState({color : color[colorValue]});
             }
         }
@@ -36,17 +37,17 @@ class Banner extends React.Component{
     render(){
         return(
             <nav className="navbar">
-                <div className="logo">
-                    <a href="">USO</a>
-                </div>
+                <Link to="/" className="logo">
+                    <Logo />
+                </Link>
+                {/* <a href="" className="logo">
+                    
+                </a> */}
                 <div className="nav-links" id="nav-links">
-                    <ul>
-                        <li>
-                            <div className="link-background" onMouseEnter={()=>this.onMouseEnter()} onMouseLeave={()=>this.onMouseLeave()}>
-                                <a href="" className={"left " + this.state.color}>Menu</a>
-                            </div>
-                        </li>
-                    </ul>
+                    <div className="link-background" onMouseEnter={()=>this.onMouseEnter()} onMouseLeave={()=>this.onMouseLeave()}>
+                        <a href="" className={"left " + this.state.color}>Menu</a>
+                        <img src={menu} alt="Icone Menu"/>
+                    </div>
                 </div>
             </nav>
         );
