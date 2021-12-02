@@ -55,8 +55,7 @@ class DefaultController extends AbstractController
 	{
 		$entityManager = $this->getDoctrine()->getManager();
 		$userDb = $entityManager->getRepository(User::class)->findAll();
-
-		//$osuT = $this->osuService->getOsuToken();
+		$osuT = $this->osuService->getOsuToken();
 		$s = $this->spotifyService->getOsuMusic($osuT, $userDb);
 		return $this->json($s);
 		// return $this->json($osuT);
@@ -121,10 +120,13 @@ class DefaultController extends AbstractController
 		/** @var User $user */
 		$entityManager = $this->getDoctrine()->getManager();
 		$spotifyAccessToken = $json_response['access_token'];
+		$bytes = random_bytes(20);
+		$tokenUser = bin2hex($bytes);
 		$userDb = $entityManager->getRepository(User::class)->findAll();
-		$newToken = new User();
-		$newToken->setTokenSpotify($spotifyAccessToken);
-		$entityManager->persist($newToken);
+		$newUser = new User();
+		$newUser->setTokenSpotify($spotifyAccessToken);
+		$newUser->setTokenUser($tokenUser);
+		$entityManager->persist($newUser);
 		$entityManager->flush();
 		// return $this->redirect("http://127.00.1:8081/");
 		return $this->redirect("http://127.00.1:8081/spotifyRequest?token=" . $spotifyAccessToken);
