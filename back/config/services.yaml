@@ -10,6 +10,7 @@ parameters:
     osu_base_url: '%env(resolve:OSU_BASE_URL)%'
     osu_user_url: '%env(resolve:OSU_USER_URL)%'
     # osu_music_url: '%env(resolve:OSU_MUSIC_URL)%'
+    spotify_base_url: '%env(resolve:SPOTIFY_BASE_URL)%'
 
     osu_client_id: '%env(resolve:OSU_CLIENT_ID)%'
     osu_secret: '%env(resolve:OSU_SECRET)%'
