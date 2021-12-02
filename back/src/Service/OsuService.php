@@ -1,5 +1,6 @@
 <?php
 namespace App\Service;
+use App\Entity\OsuUser;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -22,16 +23,15 @@ class OsuService
 	private $parameterBag;
 
 	public function __construct(
-		EntityManagerInterface $entityManager, 
-		HttpClientInterface $httpClient, 
+		EntityManagerInterface $entityManager,
+		HttpClientInterface $httpClient,
 		ParameterBagInterface $paramaterBag)
 	{
 		$this->entityManager = $entityManager;
 		$this->httpClient = $httpClient;
 		$this->parameterBag = $paramaterBag;
 	}
-
-	public function getOsuToken(): array
+	public function getOsuToken(string $pseudo): array
 	{
 		$osuBaseUrl = $this->parameterBag->get('osu_base_url');
 		$osuUserUrl = $this->parameterBag->get('osu_user_url');
@@ -50,7 +50,7 @@ class OsuService
 		$token = json_decode($response->getContent(), true)["access_token"];
 		$authorizationHeader = sprintf('Bearer %s', $token);
 		// A DEFINIR EN FRONT
-		$osuUserPseudo = "yosh1ko";
+		$osuUserPseudo = $pseudo;
 		$osuUserIdUrl = $osuUserUrl . $osuUserPseudo;
 		$responseUserId = $this->httpClient->request('GET', $osuUserIdUrl, [
 			'headers'=>[

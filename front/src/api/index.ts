@@ -1,14 +1,15 @@
 import axios from 'axios';
-import { Utilisateur } from '../decl';
+import { OsuUser } from '../decl/osuUser.decl';
 
-export const postLogin = async (user: Utilisateur): Promise<Utilisateur> => {
+export const getOsuPseudo = async (user: OsuUser): Promise<OsuUser>=> {
     try{
         const res = await axios.post(
-            `${process.env.REACT_APP_BASE_URL}/login`,
+            `${process.env.REACT_APP_BASE_URL}/pseudo`,
             user
-        );
+        )
         return res.data;
-    } catch (error){
-        throw new Error("An error occured saving the user");
+    } catch(error) {
+        throw new Error("Ca marche pas frerot");
     }
-}
+}; 
+

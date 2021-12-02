@@ -67,8 +67,23 @@ class DefaultController extends AbstractController
 	 */
 	public function oauth(): Response
 	{
-		
+
 		return $this->redirect('https://accounts.spotify.com/authorize?client_id=29ced1155da2459f8e661f5beac00a74&response_type=code&redirect_uri=http://127.0.0.1:8081/exchange_token&scope=user-read-private,playlist-modify-private,playlist-modify-public');
+	}
+
+    /**
+	 * @Route("/pseudo", name="pseudo")
+	 */
+	public function pseudo(Request $request): Response
+	{
+        $params = json_decode($request->getContent(), true);
+
+        if(!isset($params["pseudo"]) || empty($params['pseudo'])){
+            throw new HttpException(400, 'Missing pseudo parameter.');
+        }
+        // $this->osuService->getOsuToken($params['pseudo']);
+		return $this->json($this->osuService->getOsuToken($params['pseudo']));
+		// return $this->json($spotifyAccessToken);
 	}
 
 	/**
@@ -123,7 +138,7 @@ class DefaultController extends AbstractController
 		$token = $request->get('token');
 		$spotifyR = $this->spotifyService->getSpotifyPlaylists($token);
 		return $this->json($spotifyR);
-		// ENREGISTRER 
+		// ENREGISTRER
 	}
 
 	/**
