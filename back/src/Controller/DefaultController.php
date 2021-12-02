@@ -56,7 +56,7 @@ class DefaultController extends AbstractController
 		$entityManager = $this->getDoctrine()->getManager();
 		$userDb = $entityManager->getRepository(User::class)->findAll();
 
-		$osuT = $this->osuService->getOsuToken();
+		//$osuT = $this->osuService->getOsuToken();
 		$s = $this->spotifyService->getOsuMusic($osuT, $userDb);
 		return $this->json($s);
 		// return $this->json($osuT);

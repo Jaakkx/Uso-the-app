@@ -5,13 +5,13 @@ import OsuPage from "./OsuPage";
 
 export type State = {
     pseudo: string,
-    musiques: string[],
+    musiquesList: string[],
 };
 
 class SearchOsu extends React.Component{
     state = {
         pseudo: "",
-        musiques: []
+        musiquesList: [],
     }
 
     onChange = (e: React.FormEvent<HTMLInputElement>): void =>{
@@ -24,8 +24,10 @@ class SearchOsu extends React.Component{
         const { pseudo } = this.state;
 
         try {
+            
             const login = await getOsuPseudo({ pseudo });
-            this.setState({musiques: login});
+            this.setState({musiquesList: login});
+
         } catch (error) {
             alert(error);
         }
@@ -48,9 +50,9 @@ class SearchOsu extends React.Component{
 
                 <div>
                     {
-                        this.state.musiques.map(item => (
-                            <div key={item}>
-                                {item}
+                        this.state.musiquesList.map(item => (
+                            <div key={item['titre']}>
+                                {item['titre']}
                             </div>
                         ))
                     }
