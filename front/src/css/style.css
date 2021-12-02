@@ -55,10 +55,26 @@ a.left:before {
   height: 2px;
   bottom: -2px;
   left: 0;
-  background-color:black;
   visibility: hidden;
   transition: all 0.3s ease-in-out;
 }
+
+a.left.orange:before{
+    background-color: #FD7E40;
+}
+a.left.vert:before{
+    background-color: #3DB372;
+}
+a.left.bleu:before{
+    background-color: #4A7DF2;
+}
+a.left.rose:before{
+    background-color: #F31EEB;
+}
+a.left.jaune:before{
+    background-color: #F9B125;
+}
+
 a.left:hover:before {
     visibility: visible;
     width: 100%;

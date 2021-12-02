@@ -2,12 +2,36 @@ import React from "react";
 import "../css/style.css";
 
 class Banner extends React.Component{
-
-    color = (previousColor:string) => {
-        let color = ["#3DB372","#4A7DF2", "#F31EEB", "#FD7E40", "#F9B125"];
-
-        console.log(Math.floor(Math.random() * (color.length )));
+    state={
+        hovered:false,
+        color:"vert",
+        oldColor:0,
     }
+
+    color = () => {
+        let color = ["vert","bleu", "rose", "orange", "jaune"];
+        let colorValue = Math.floor(Math.random() * (color.length ));
+
+        if(this.state.hovered){
+            if(colorValue == this.state.oldColor){
+                colorValue = Math.floor(Math.random() * (color.length ));
+            }else{
+                this.setState({oldColor:colorValue});
+                console.log(colorValue);
+                this.setState({color : color[colorValue]});
+            }
+        }
+    }
+
+    onMouseEnter = () => {
+        this.setState({ hovered: true });
+        // this.color();
+    };
+    
+    onMouseLeave = () => {
+        this.setState({ hovered: false });
+        this.color();
+    };
 
     render(){
         return(
@@ -18,8 +42,8 @@ class Banner extends React.Component{
                 <div className="nav-links" id="nav-links">
                     <ul>
                         <li>
-                            <div className="link-background" onMouseEnter={()=>this.color("test")}>
-                                <a href="" className="left">Menu</a>
+                            <div className="link-background" onMouseEnter={()=>this.onMouseEnter()} onMouseLeave={()=>this.onMouseLeave()}>
+                                <a href="" className={"left " + this.state.color}>Menu</a>
                             </div>
                         </li>
                     </ul>
