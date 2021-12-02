@@ -96,6 +96,7 @@ class OsuService
 			$musicTitle = $musicInfos[$key]["beatmapset"]["title"];
 			$musicTitle = str_replace(" (TV Size)", "", $musicTitle);
 			$musicTitle = str_replace(" [Dictate Edit]", "", $musicTitle);
+			var_dump($musicTitle);
 			array_push($musicTitleTab, $musicTitle);
 		}
 		return $musicTitleTab;
