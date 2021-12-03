@@ -58,12 +58,21 @@ class DefaultController extends AbstractController
 	/**
 	 * @Route("/", name="default")
 	 */
-	public function index(): Response
+	public function index(Request $request): Response
 	{
 		$entityManager = $this->getDoctrine()->getManager();
 		$userDb = $entityManager->getRepository(User::class)->findAll();
-		$osuT = $this->osuService->getOsuToken();
-		$musicFromSpotify = $this->spotifyService->getOsuMusic($osuT, $userDb);
+		// $osuT = $this->osuService->getOsuToken();
+		// $musicFromSpotify = $this->spotifyService->getOsuMusic($osuT, $userDb);
+		/** @var User $user */
+		$user = $this->userService->getUserFromRequest($request);
+		// return $user;
+		if (null === $user) {
+			return new Response('Unauthorized', 401);
+		}
+		// var_dump($user->getTokenSpotify());
+		$spotifyToken = $user->getTokenSpotify();
+		$musicFromSpotify = $this->spotifyService->getOsuMusic($spotifyToken, $userDb);
 		return $this->json($musicFromSpotify);
 	}
 
@@ -199,9 +208,9 @@ class DefaultController extends AbstractController
 	 */
 	public function removeMusic(): Response
 	{
-			/** @var User $user */
-			$entityManager = $this->getDoctrine()->getManager();
-			$userDb = $entityManager->getRepository(User::class)->findAll();
+		/** @var User $user */
+		$entityManager = $this->getDoctrine()->getManager();
+		$userDb = $entityManager->getRepository(User::class)->findAll();
 
 		$aa = $this->spotifyService->removeMusicFromPlaylist($userDb);
 		return $this->json($aa);
