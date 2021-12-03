@@ -51,8 +51,8 @@ class OsuService
 		$token = json_decode($response->getContent(), true)["access_token"];
 		$authorizationHeader = sprintf('Bearer %s', $token);
 		// A DEFINIR EN FRONT
-		// $osuUserPseudo = $pseudo;
-		$osuUserPseudo = "yosh1ko";
+		$osuUserPseudo = $pseudo;
+		// $osuUserPseudo = "yosh1ko";
 		$osuUserIdUrl = $osuUserUrl . $osuUserPseudo;
 		$responseUserId = $this->httpClient->request('GET', $osuUserIdUrl, [
 			'headers'=>[
