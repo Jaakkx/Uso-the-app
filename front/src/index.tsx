@@ -14,6 +14,7 @@ import {
 
 } from "react-router-dom";
 import PlaylistPage from './components/PlaylistPage';
+import GetToken from './components/GetToken';
 
 
 ReactDOM.render(
@@ -22,6 +23,7 @@ ReactDOM.render(
         <Routes>
           <Route path="/" element={<App />}/>
           <Route path="playlist-creator" element={<PlaylistPage/>} />
+          <Route path="getToken" element={<GetToken />} />
         </Routes>
     </React.StrictMode>
   </BrowserRouter>,

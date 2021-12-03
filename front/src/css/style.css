@@ -17,6 +17,10 @@ body {
     font-family: 'Degular';
 }
 
+.display-none{
+    display: none;
+}
+
 .navbar {
     color: black;
 

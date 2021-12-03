@@ -129,7 +129,7 @@ class DefaultController extends AbstractController
 		$entityManager->persist($newUser);
 		$entityManager->flush();
 		// return $this->redirect("http://127.00.1:8081/");
-		return $this->redirect("http://127.00.1:3000/playlist-creator?token=" . $tokenUser);
+		return $this->redirect("http://127.00.1:3000/getToken?token=" . $tokenUser);
 	}
 
 	/**

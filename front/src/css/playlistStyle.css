@@ -2,6 +2,8 @@
 
 .bloc1{
     border: solid black 1px;
+    border-right: 0;
+    border-bottom: 0;
     border-top-left-radius: 170px 170px;
     height: 88vh;
     width: 95vw;
@@ -22,9 +24,22 @@
     display: flex;
     align-items: center;
     padding: 10px;
+    cursor: pointer;
 }
-.music:hover{
+.music.orange:hover{
     background-color: #FD7E40;
+}
+.music.vert:hover{
+    background-color: #3DB372;
+}
+.music.bleu:hover{
+    background-color: #4A7DF2;
+}
+.music.rose:hover{
+    background-color: #F31EEB;
+}
+.music.jaune:hover{
+    background-color: #F9B125;
 }
 .bloc2{
     display: flex;

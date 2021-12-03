@@ -12,6 +12,10 @@ class OsuPage extends React.Component{
         musiques: [],
     }
 
+    constructor(props:any){
+        super(props);
+    }
+
     updateState(newValue:[]){
         this.setState({
             musiques: newValue,

@@ -1,29 +1,28 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { Route, Router } from "react-router-dom";
 import Banner from "./Banner";
 import OsuPage from "./OsuPage";
 import SpotifyPage from "./SpotifyPage";
 
-class PlaylistPage extends React.Component{
-    state = {
-        token:""
-    }
+function PlaylistPage (){
 
-    componentDidMount(){
-        const queryParams = new URLSearchParams(window.location.search);
-        const token  = queryParams.get('token');
-        localStorage.setItem('userToken',token == null ? "token":token);
+    const [token, setToken] = useState(0);
+    const [isStock, setStock] = useState(1);
+
+    useEffect(() => {
+
         console.log(localStorage.getItem('userToken'));
-    }
+
+  
+    })
     
-    render() {
-        return(
-            <div className="App">
-                <Banner />
-                <SpotifyPage />
-                <OsuPage />
-            </div>
-        )
-    }
+    return(
+        <div className="App">
+            <Banner />
+            <SpotifyPage />
+            <OsuPage />
+        </div>
+    )
 }
 
 export default PlaylistPage;
