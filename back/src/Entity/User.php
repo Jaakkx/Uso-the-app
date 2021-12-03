@@ -25,7 +25,8 @@ class User
     /**
      * @ORM\Column(type="text")
      */
-    private $token_user;
+    private $tokenUser;
+    // private $token_user;
 
 
     public function getId(): ?int
@@ -47,12 +48,12 @@ class User
 
     public function getTokenUser(): ?string
     {
-        return $this->token_user;
+        return $this->tokenUser;
     }
 
-    public function setTokenUser(string $token_user): self
+    public function setTokenUser(string $tokenUser): self
     {
-        $this->token_user = $token_user;
+        $this->tokenUser = $tokenUser;
 
         return $this;
     }
