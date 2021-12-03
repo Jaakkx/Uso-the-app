@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-
 use App\Entity\User;
 use App\Service\UserService;
 use App\Service\OsuService;
@@ -215,18 +214,14 @@ class DefaultController extends AbstractController
 	 */
 	public function userToken(Request $request): Response
 	{
-		// $userToken = $this->userService->getUserFromRequest();
 		/** @var User $user */
 		$user = $this->userService->getUserFromRequest($request);
+		// return $user;
 		if (null === $user) {
 			return new Response('Unauthorized', 401);
 		}
-		
-		$accessToken = $user->getTokenUser();
-		var_dump($accessToken);
-		return $accessToken;
-		// $this->spotifyService->[???]($user->getAccessToken());
-		// return $this->json('test');
+		var_dump($user->getTokenSpotify());
+		$spotifyToken = $user->getTokenSpotify();
 	}
 
 }
