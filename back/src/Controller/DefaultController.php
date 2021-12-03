@@ -101,7 +101,7 @@ class DefaultController extends AbstractController
 		$userDb = $entityManager->getRepository(User::class)->findAll();
 
 		$musicFromSpotify = $this->spotifyService->getOsuMusic($osuT, $userDb);
-		return $musicFromSpotify;
+		return $this->json($musicFromSpotify);
 
 
 
