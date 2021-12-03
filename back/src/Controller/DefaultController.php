@@ -210,24 +210,23 @@ class DefaultController extends AbstractController
 		return $this->json($aa);
 	}
 
-	// /**
-	//  * @Route("/userToken", name="userToken")
-	//  */
-	// public function userToken(Request $request): Response
-	// {
-	// 	/** @var User $user */
-	// 	$user = $this->userService->getUserFromToken($request);
-
-	// 	if (null === $user) {
-	// 		return new Response('Unauthorized', 401);
-	// 	}
-
-	// 	$accessToken = $user->getTokenUser();
-	// 	var_dump($accessToken);
-	// 	return $accessToken;
-	// 	// $artistId = '1DgBVE3lCnC7Osg9zpAt6N';
-	// 	// $this->spotifyService->followSpotifyArtist($user->getAccessToken(), $artistId);
-	// 	return $this->json('Slt');
-	// }
+	/**
+	 * @Route("/userToken", name="userToken")
+	 */
+	public function userToken(Request $request): Response
+	{
+		// $userToken = $this->userService->getUserFromRequest();
+		/** @var User $user */
+		$user = $this->userService->getUserFromRequest($request);
+		if (null === $user) {
+			return new Response('Unauthorized', 401);
+		}
+		
+		$accessToken = $user->getTokenUser();
+		var_dump($accessToken);
+		return $accessToken;
+		// $this->spotifyService->[???]($user->getAccessToken());
+		// return $this->json('test');
+	}
 
 }

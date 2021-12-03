@@ -134,12 +134,9 @@ class SpotifyService
 		}
 		$lastToken = $return[sizeof($return) - 1]["tokenSpotify"];
 		foreach($osuT as $tt => $rr){
-			// var_dump($rr["titre"] . "=>" . $rr["id"]);
 			$title = $rr["titre"];
-			// var_dump($title);
 			$urlMusics = sprintf("https://api.spotify.com/v1/search?q=track:%s&type=track&market=FR&limit=1", $title);
 			$osuTrack = $this->httpClient->request('GET', $urlMusics, [
-			// $osuTrack = $this->httpClient->request('GET', "https://api.spotify.com/v1/search?q=track:manifeste&type=track&market=FR&limit=1", [
 				'headers'=>[
 					'Accept' => 'application/json',
 					'Content-Type' => 'application/x-www-form-urlencoded',
@@ -177,15 +174,13 @@ class SpotifyService
 		$body = '{}';
 
 		// A RECUPERER DEPUIS LE FRONT
-		$musicId = "5nF4iejReWqvsplMp6eer0";
-		
-		$tracksUrl = "";
-		$tracksUrl = sprintf("spotify:track:%s", $musicId);
-		$tracksUrl = urlencode($tracksUrl);
-
-		// A RECUPERER DEPUIS LE FRONT
 		$playlistId = "7MfKBPKQI0hPwuKo2oIA0D";
-
+		$tracksUrl = "";
+		// A RECUPERER DEPUIS LE FRONT
+		$musicsIdArr = ["5nF4iejReWqvsplMp6eer0", "2w3ScXudq4aD3K5HFO5xvx"];
+		foreach ($musicsIdArr as $i => $id){
+			$tracksUrl = substr_replace($tracksUrl, "spotify:track:" . $id . ",", strlen($tracksUrl));
+			}
 		$url = sprintf("playlists/%s/tracks?uris=%s", $playlistId, $tracksUrl);
 		$searchUrl = $spotify_base_url . $url;
 			$response = $this->httpClient->request('POST', $searchUrl, [
@@ -193,6 +188,7 @@ class SpotifyService
 				'body' => json_encode($body),
 			]);
 		$json_r = json_decode($response->getContent(), true);
+		return $json_r;
 	}
 
 	public function removeMusicFromPlaylist($userDb){
@@ -209,31 +205,18 @@ class SpotifyService
 			'Content-Type' => 'application/json',
 		];
 
-
-
-		$body = '{"tracks": [{"uri": "spotify:track:5nF4iejReWqvsplMp6eer0",},]}';
-
-
-
-// { "tracks": [{ "uri": "spotify:track:4iV5W9uYEdYUVa79Axb7Rh" },{ "uri": "spotify:track:1301WleyT98MSxVHPZCA6M" }] }
-
-
 		// A RECUPERER DEPUIS LE FRONT
 		$musicId = "5nF4iejReWqvsplMp6eer0";
-		
-		$tracksUrl = "";
-		$tracksUrl = sprintf("spotify:track:%s", $musicId);
-		$tracksUrl = urlencode($tracksUrl);
 
 		// A RECUPERER DEPUIS LE FRONT
 		$playlistId = "7MfKBPKQI0hPwuKo2oIA0D";
 
+		$data = sprintf('{"tracks":[{"uri":"spotify:track:%s"}]}', $musicId);
 		$url = sprintf("playlists/%s/tracks", $playlistId);
 		$searchUrl = $spotify_base_url . $url;
 			$response = $this->httpClient->request('DELETE', $searchUrl, [
 				'headers'=> $headers,
-				// 'body' => $body,
-				'body' => json_encode($body),
+				'body' => $data,
 			]);
 		$json_r = json_decode($response->getContent(), true);
 	}
