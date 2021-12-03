@@ -31,8 +31,8 @@ class OsuService
 		$this->httpClient = $httpClient;
 		$this->parameterBag = $paramaterBag;
 	}
-	// public function getOsuToken(string $pseudo): array
-	public function getOsuToken(): array
+	public function getOsuToken(string $pseudo): array
+	// public function getOsuToken(): array
 	{
 		$osuBaseUrl = $this->parameterBag->get('osu_base_url');
 		$osuUserUrl = $this->parameterBag->get('osu_user_url');
