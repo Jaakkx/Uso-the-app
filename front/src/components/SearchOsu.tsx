@@ -1,21 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import { getOsuPseudo } from "../api";
-import search from "../assets/search.svg"
+import search from "../assets/search.svg";
+
 
 export type State = {
     pseudo: string,
-    musiquesList: string[],
-    musiqueChoose: string[],
+    musiquesList: any,
+    oldColor:number,
+    hovered:boolean,
+    color:string,
+    idTab:any,
+    
 };
 
-class SearchOsu extends React.Component{
+export type Props = {
+    onSuccess:(data:any)=>void;
+}
+
+class SearchOsu extends React.Component<Props>{
     state = {
         pseudo: "",
         musiquesList: [],
         oldColor:0,
         hovered:false,
         color:"",
-        idTab: [],
+        idTab: [""],
     }
 
     color = () => {
@@ -32,7 +41,7 @@ class SearchOsu extends React.Component{
         }
     }
 
-    onMouseEnter(){
+    onMouseEnter = () => {
         this.setState({ hovered: true });
         this.color();
     };
@@ -47,15 +56,29 @@ class SearchOsu extends React.Component{
     }
 
     onClick = (id:string) => {
-        // this.setState(idTab)
+        this.setState({idTab:[]});
+        let interTab = this.state.idTab;
+        let ok:boolean = true;
+        for(let i = 1; i<=this.state.idTab.length;i++){
+            if(this.state.idTab[i] == id){
+                ok = false;
+            }
+        }
+        if(ok){
+            interTab.push(id);
+            this.setState({idTab:interTab});
+            this.props.onSuccess({idTab:interTab});
+        }
+        window.localStorage.setItem('idTab',JSON.stringify(this.state.idTab));
+        window.onstorage = () => {
+            return("test");
+        }
     }
 
     handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         const { pseudo } = this.state;
-        console.log(pseudo);
-
         try {
 
             this.setState({musiquesList:[]});
@@ -93,8 +116,8 @@ class SearchOsu extends React.Component{
                 <div className="scroll2">
                     {
                         this.state.musiquesList.map(item => (
-                            <div key={item['id']} className={"music " + this.state.color} onMouseEnter={() => this.onMouseEnter()} onMouseLeave={() => this.onMouseLeave()}>
-                                {item['titre']}
+                            <div  className={"music " + this.state.color} onClick={() => this.onClick(item)} onMouseEnter={() => this.onMouseEnter()} onMouseLeave={() => this.onMouseLeave()}>
+                                {item['title']}
                             </div>
                         ))
                     }

@@ -1,7 +1,6 @@
 import React from "react";
 import logo from "./logo.svg";
 import "./App.css";
-import OsuPage from "./components/OsuPage";
 import Banner from "./components/Banner";
 import PlaylistPage from "./components/PlaylistPage";
 import { Link } from "react-router-dom";
