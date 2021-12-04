@@ -89,19 +89,14 @@ class DefaultController extends AbstractController
 	public function pseudo(Request $request): Response
 	{
 		$params = json_decode($request->getContent(), true);
-
 		if(!isset($params["pseudo"]) || empty($params['pseudo'])){
 			throw new HttpException(400, 'Missing pseudo parameter.');
 		}
-		// $this->osuService->getOsuToken($params['pseudo']);
-		// $this->json($this->osuService->getOsuToken($params['pseudo']));
 		$osuT = $this->osuService->getOsuToken($params['pseudo']);
 		$entityManager = $this->getDoctrine()->getManager();
 		$userDb = $entityManager->getRepository(User::class)->findAll();
 		$musicFromSpotify = $this->spotifyService->getOsuMusic($osuT, $userDb);
 		return $this->json($musicFromSpotify);
-
-		// return $this->json($spotifyAccessToken);
 	}
 
 	/**
@@ -140,7 +135,7 @@ class DefaultController extends AbstractController
 		$spotifyAccessToken = $json_response['access_token'];
 		$bytes = random_bytes(20);
 		$tokenUser = bin2hex($bytes);
-		$userDb = $entityManager->getRepository(User::class)->findAll();
+		// $userDb = $entityManager->getRepository(User::class)->findAll();
 		$newUser = new User();
 		$newUser->setTokenSpotify($spotifyAccessToken);
 		$newUser->setTokenUser($tokenUser);
@@ -160,29 +155,13 @@ class DefaultController extends AbstractController
 		return $this->json($spotifyR);
 		// ENREGISTRER
 	}
-
-	// /**
-	//  * @Route("/update", name="update")
-	//  */
-	// public function update(): Response
-	// {
-	// 	/** @var User $user */
-	// 	$entityManager = $this->getDoctrine()->getManager();
-	// 	$userDb = $entityManager->getRepository(User::class)->findAll();
-	// 	$osuT = $this->osuService->getOsuToken();
-	// 	$rSpotify = $this->spotifyService->updateSpotify($userDb, $osuT);
-	// 	// var_dump($rSpotify);
-	// 	return $this->json($rSpotify);
-	// }
-
-
 	
 	/**
 	 * @Route("/createPlaylist", name="createPlaylist")
 	 */
 	public function createPlaylist(): Response
 	{
-			/** @var User $user */
+		/** @var User $user */
 		$entityManager = $this->getDoctrine()->getManager();
 		$userDb = $entityManager->getRepository(User::class)->findAll();
 		$rSpotify = $this->spotifyService->createPlaylist($userDb);
@@ -196,33 +175,7 @@ class DefaultController extends AbstractController
 	{
 		return $this->json('error.');
 	}
-
-	/**
-	 * @Route("/addMusic", name="addMusic")
-	 */
-	public function addMusic(): Response
-	{
-			/** @var User $user */
-			$entityManager = $this->getDoctrine()->getManager();
-			$userDb = $entityManager->getRepository(User::class)->findAll();
-
-		$aa = $this->spotifyService->addMusicToPlaylist($userDb);
-		return $this->json($aa);
-	}
-
-	/**
-	 * @Route("/removeMusic", name="removeMusic")
-	 */
-	public function removeMusic(): Response
-	{
-		/** @var User $user */
-		$entityManager = $this->getDoctrine()->getManager();
-		$userDb = $entityManager->getRepository(User::class)->findAll();
-
-		$aa = $this->spotifyService->removeMusicFromPlaylist($userDb);
-		return $this->json($aa);
-	}
-
+	
 	/**
 	 * @Route("/userToken", name="userToken")
 	 */
@@ -237,5 +190,45 @@ class DefaultController extends AbstractController
 		var_dump($user->getTokenSpotify());
 		$spotifyToken = $user->getTokenSpotify();
 	}
-
+	
 }
+
+
+	// /**
+	//  * @Route("/update", name="update")
+	//  */
+	// public function update(): Response
+	// {
+	// 	/** @var User $user */
+	// 	$entityManager = $this->getDoctrine()->getManager();
+	// 	$userDb = $entityManager->getRepository(User::class)->findAll();
+	// 	$osuT = $this->osuService->getOsuToken();
+	// 	$rSpotify = $this->spotifyService->updateSpotify($userDb, $osuT);
+	// 	// var_dump($rSpotify);
+	// 	return $this->json($rSpotify);
+	// }
+		
+	// /**
+	//  * @Route("/addMusic", name="addMusic")
+	//  */
+	// public function addMusic(): Response
+	// {
+	// 		/** @var User $user */
+	// 		$entityManager = $this->getDoctrine()->getManager();
+	// 		$userDb = $entityManager->getRepository(User::class)->findAll();
+
+	// 	$aa = $this->spotifyService->addMusicToPlaylist($userDb);
+	// 	return $this->json($aa);
+	// }
+	
+	// /**
+	//  * @Route("/removeMusic", name="removeMusic")
+	//  */
+	// public function removeMusic(): Response
+	// {
+	// 	/** @var User $user */
+	// 	$entityManager = $this->getDoctrine()->getManager();
+	// 	$userDb = $entityManager->getRepository(User::class)->findAll();
+	// 	$aa = $this->spotifyService->removeMusicFromPlaylist($userDb);
+	// 	return $this->json($aa);
+	// }
