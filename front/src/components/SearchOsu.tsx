@@ -25,6 +25,7 @@ class SearchOsu extends React.Component<Props>{
         hovered:false,
         color:"",
         idTab: [""],
+        ok:true,
     }
 
     color = () => {
@@ -58,16 +59,13 @@ class SearchOsu extends React.Component<Props>{
     onClick = (id:string) => {
         this.setState({idTab:[]});
         let interTab = this.state.idTab;
-        let ok:boolean = true;
-        for(let i = 1; i<=this.state.idTab.length;i++){
-            if(this.state.idTab[i] == id){
-                ok = false;
-            }
-        }
-        if(ok){
+        if(!this.state.idTab.includes(id)){
             interTab.push(id);
             this.setState({idTab:interTab});
             this.props.onSuccess({idTab:interTab});
+        }else{
+            this.setState({idTab:interTab});
+            this.props.onSuccess({idTab:interTab}); 
         }
         window.localStorage.setItem('idTab',JSON.stringify(this.state.idTab));
         window.onstorage = () => {
