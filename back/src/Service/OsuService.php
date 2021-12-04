@@ -84,9 +84,7 @@ class OsuService
 					'scope' => 'public',
 				],
 			]);
-
 		$musicTitleTab = [];
-		$mmm = [];
 		$musicInfos = json_decode($responseBeatmaps->getContent(), true);
 		// return $musicInfos;
 		// return $responseBeatmaps;

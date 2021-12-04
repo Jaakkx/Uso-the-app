@@ -19,7 +19,7 @@ export const getOsuPseudo = async (user: OsuUser): Promise<OsuUser>=> {
             }
         )
         return res.data;
-    } catch(error) {        
+    } catch(error) {
         throw new Error("Erreur dans le pseudo ou pseudo inexistant");
     }
 }; 
