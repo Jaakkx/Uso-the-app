@@ -2,17 +2,6 @@ import React, { useState } from "react";
 import { getOsuPseudo } from "../api";
 import search from "../assets/search.svg";
 
-
-export type State = {
-    pseudo: string,
-    musiquesList: any,
-    oldColor:number,
-    hovered:boolean,
-    color:string,
-    idTab:any,
-    
-};
-
 export type Props = {
     onSuccess:(data:any)=>void;
 }
@@ -66,10 +55,6 @@ class SearchOsu extends React.Component<Props>{
         }else{
             this.setState({idTab:interTab});
             this.props.onSuccess({idTab:interTab}); 
-        }
-        window.localStorage.setItem('idTab',JSON.stringify(this.state.idTab));
-        window.onstorage = () => {
-            return("test");
         }
     }
 
