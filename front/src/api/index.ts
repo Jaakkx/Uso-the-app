@@ -9,13 +9,12 @@ let config = {
 }
 
 export const getOsuPseudo = async (user: OsuUser): Promise<OsuUser>=> {
-    console.log(config);
     try{
         const res = await axios.post(
             `${process.env.REACT_APP_BASE_URL}/pseudo`,
             user,
-            { headers: {
-                    'Authorization': window.localStorage.getItem("UserToken") ?? "",
+            { headers: {    
+                    'Authorization': localStorage.getItem("userToken") ?? "",
                }
             }
         )
