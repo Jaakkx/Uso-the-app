@@ -108,8 +108,9 @@ class SpotifyService
 			];
 		}
 		$lastToken = $return[sizeof($return) - 1]["tokenSpotify"];
+		//A RECUPERER DEPUIS LE FRONT
 		$newPlaylistName = "Nvlle playlist";
-		$newPlaylistDesc = "Playlist test API";
+		$newPlaylistDesc = "Playlist créée par USO";
 		$newPlaylistState = 'true';
 		$playlistData = sprintf('{"name": "%s", "description": "%s", "public": %s}', $newPlaylistName, $newPlaylistDesc, $newPlaylistState);
 		$userId = "a1ex-ksb";
@@ -121,8 +122,44 @@ class SpotifyService
 			],
 			'body' => $playlistData
 		]);
-		return json_decode($createPlaylist->getContent(),true);
+		$newPlaylistId = json_decode($createPlaylist->getContent(),true);
+		$newPlaylistId = $newPlaylistId["id"];
+		$addMusicToPlaylist = $this->addMusicToPlaylist($userDb, $newPlaylistId);
+		return $addMusicToPlaylist;
 	}
+	
+		public function addMusicToPlaylist($userDb, $newPlaylistId){
+			$spotify_base_url = $this->parameterBag->get('spotify_base_url');
+			foreach($userDb as $data){
+				$return [] = [
+					'id' => $data->getId(),
+					'tokenSpotify' => $data->getTokenSpotify(),
+				];
+			}
+			$lastToken = $return[sizeof($return) - 1]["tokenSpotify"];
+			$headers = [
+				'Authorization' => 'Bearer ' . $lastToken,
+				'Content-Type' => 'application/json',
+			];
+			$body = '{}';
+	
+			// $playlistId = "7MfKBPKQI0hPwuKo2oIA0D";
+			$playlistId = $newPlaylistId;
+			$tracksUrl = "";
+			// A RECUPERER DEPUIS LE FRONT
+			$musicsIdArr = ["5nF4iejReWqvsplMp6eer0", "2w3ScXudq4aD3K5HFO5xvx"];
+			foreach ($musicsIdArr as $i => $id){
+				$tracksUrl = substr_replace($tracksUrl, "spotify:track:" . $id . ",", strlen($tracksUrl));
+				}
+			$url = sprintf("playlists/%s/tracks?uris=%s", $playlistId, $tracksUrl);
+			$searchUrl = $spotify_base_url . $url;
+				$response = $this->httpClient->request('POST', $searchUrl, [
+					'headers'=> $headers,
+					'body' => json_encode($body),
+				]);
+			$json_r = json_decode($response->getContent(), true);
+			return $json_r;
+		}
 
 	public function getOsuMusic($osuT, $userDb){
 		$tab = [];
@@ -158,40 +195,7 @@ class SpotifyService
 		return $tab;
 	}
 
-	public function addMusicToPlaylist($userDb){
-		$spotify_base_url = $this->parameterBag->get('spotify_base_url');
-		foreach($userDb as $data){
-			$return [] = [
-				'id' => $data->getId(),
-				'tokenSpotify' => $data->getTokenSpotify(),
-			];
-		}
-		$lastToken = $return[sizeof($return) - 1]["tokenSpotify"];
-		$headers = [
-			'Authorization' => 'Bearer ' . $lastToken,
-			'Content-Type' => 'application/json',
-		];
-		$body = '{}';
-
-		// A RECUPERER DEPUIS LE FRONT
-		$playlistId = "7MfKBPKQI0hPwuKo2oIA0D";
-		$tracksUrl = "";
-		// A RECUPERER DEPUIS LE FRONT
-		$musicsIdArr = ["5nF4iejReWqvsplMp6eer0", "2w3ScXudq4aD3K5HFO5xvx"];
-		foreach ($musicsIdArr as $i => $id){
-			$tracksUrl = substr_replace($tracksUrl, "spotify:track:" . $id . ",", strlen($tracksUrl));
-			}
-		$url = sprintf("playlists/%s/tracks?uris=%s", $playlistId, $tracksUrl);
-		$searchUrl = $spotify_base_url . $url;
-			$response = $this->httpClient->request('POST', $searchUrl, [
-				'headers'=> $headers,
-				'body' => json_encode($body),
-			]);
-		$json_r = json_decode($response->getContent(), true);
-		return $json_r;
-	}
-
-	public function removeMusicFromPlaylist($userDb){
+	public function removeMusicFromPlaylist($userDb, $newPlaylistId){
 		$spotify_base_url = $this->parameterBag->get('spotify_base_url');
 		foreach($userDb as $data){
 			$return [] = [
@@ -219,6 +223,8 @@ class SpotifyService
 				'body' => $data,
 			]);
 		$json_r = json_decode($response->getContent(), true);
+		var_dump('slt');
+		return $json_r;
 	}
 
 }

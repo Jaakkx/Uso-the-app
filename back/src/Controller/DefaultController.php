@@ -95,15 +95,11 @@ class DefaultController extends AbstractController
 		}
 		// $this->osuService->getOsuToken($params['pseudo']);
 		// $this->json($this->osuService->getOsuToken($params['pseudo']));
-
 		$osuT = $this->osuService->getOsuToken($params['pseudo']);
 		$entityManager = $this->getDoctrine()->getManager();
 		$userDb = $entityManager->getRepository(User::class)->findAll();
-
 		$musicFromSpotify = $this->spotifyService->getOsuMusic($osuT, $userDb);
 		return $this->json($musicFromSpotify);
-
-
 
 		// return $this->json($spotifyAccessToken);
 	}
@@ -179,6 +175,8 @@ class DefaultController extends AbstractController
 	// 	return $this->json($rSpotify);
 	// }
 
+
+	
 	/**
 	 * @Route("/createPlaylist", name="createPlaylist")
 	 */
