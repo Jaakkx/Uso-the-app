@@ -80,7 +80,7 @@ class DefaultController extends AbstractController
 	 */
 	public function oauth(): Response
 	{
-		return $this->redirect('https://accounts.spotify.com/authorize?client_id=29ced1155da2459f8e661f5beac00a74&response_type=code&redirect_uri=http://127.0.0.1:8081/exchange_token&scope=user-read-private,playlist-modify-private,playlist-modify-public');
+		return $this->redirect('https://accounts.spotify.com/authorize?client_id=29ced1155da2459f8e661f5beac00a74&response_type=code&redirect_uri=http://uso-api.jael-beining.fr/exchange_token&scope=user-read-private,playlist-modify-private,playlist-modify-public');
 	}
 
 	/**
@@ -109,7 +109,7 @@ class DefaultController extends AbstractController
 		$spotifySecret = $this->parameterBag->get('spotify_secret');
 		try {
 			$body = [
-				'redirect_uri' => 'http://127.0.0.1:8081/exchange_token',
+				'redirect_uri' => 'http://uso-api.jael-beining.fr/exchange_token',
 				'code' => $authorization_code,
 				'grant_type' => 'authorization_code'
 			];
@@ -142,7 +142,7 @@ class DefaultController extends AbstractController
 		$entityManager->persist($newUser);
 		$entityManager->flush();
 		// return $this->redirect("http://127.00.1:8081/");
-		return $this->redirect("http://127.0.0.1:3000/getToken?token=" . $tokenUser);
+		return $this->redirect("http://uso.jael-beining.fr/getToken?token=" . $tokenUser);
 	}
 
 	/**
