@@ -196,17 +196,16 @@ button{
     margin-left: 20px;
     cursor: pointer;
 }
-button:hover{
+/* button:hover{
     background-color: #F9B125;
     color: white;
     border: black solid 1px;
-    transition: ease 0.5s;
 }
 .boutton{
     position: relative; 
     margin-top: 12.5%;
     margin-left: 52%;
-}
+} */
 
 .decouvrir{
     font-size: 1rem;
