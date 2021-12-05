@@ -77,11 +77,12 @@ class SpotifyService
 			];
 		}
 		$lastToken = $return[sizeof($return) - 1]["tokenSpotify"];
+		$getSpotifyId = $this->getSpotifyId($lastToken);
 		$newPlaylistName = $dataSpotify["name"];
 		$newPlaylistDesc = "Playlist créée par USO";
 		$newPlaylistState = 'true';
 		$playlistData = sprintf('{"name": "%s", "description": "%s", "public": %s}', $newPlaylistName, $newPlaylistDesc, $newPlaylistState);
-		$userId = "a1ex-ksb";
+		$userId = $getSpotifyId;
 		$urlCreatePlaylist = sprintf('%susers/%s/playlists',$spotify_base_url, $userId);
 		$createPlaylist = $this->httpClient->request('POST', $urlCreatePlaylist,[
 			'headers' =>[
@@ -133,6 +134,19 @@ class SpotifyService
 			$json_r = json_decode($response->getContent(), true);
 			return $json_r;
 		}
+
+		public function getSpotifyId($lastToken): string
+		{
+			$spotifyBaseUrl = "https://api.spotify.com/v1/me/playlists";
+				$response = $this->httpClient->request('GET', $spotifyBaseUrl, [
+					'headers'=>[
+						'Content-Type' => 'application/x-www-form-urlencoded',
+						'Authorization' => 'Bearer '. $lastToken,
+					],
+				]);
+				$response = json_decode($response->getContent(), true);
+				return $response["items"][0]["owner"]["id"];
+			}
 
 	public function getOsuMusic($osuT, $userDb){
 		$tab = [];

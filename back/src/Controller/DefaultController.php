@@ -150,8 +150,21 @@ class DefaultController extends AbstractController
 	 */
 	public function spotifyRequest(Request $request): Response
 	{
-		$token = $request->get('token');
-		$spotifyR = $this->spotifyService->getSpotifyPlaylists($token);
+		$entityManager = $this->getDoctrine()->getManager();
+		$userDb = $entityManager->getRepository(User::class)->findAll();
+		// $osuT = $this->osuService->getOsuToken();
+		// $musicFromSpotify = $this->spotifyService->getOsuMusic($osuT, $userDb);
+		/** @var User $user */
+		// $user = $this->userService->getUserFromRequest($request);
+		// return $user;
+		// if (null === $user) {
+		// 	return new Response('Unauthorized', 401);
+		// }
+		// $spotifyToken = $user->getTokenSpotify();
+
+		$spotifyToken = "BQDHiadE5bDa1e5x7kUdn8DmGsBSxecsSEb_Uoq6f6c5EisgQBsrtw1u2lN_QmytvBujsz5jf7y0l4yQxgc4txLTr0Se8wqjvw__-vDB-fFLnbqz1JsfMP-7szAREfFc7btFblUpmcBuxjrmH6GmyfCdT_-HI8uMUDV65bNtH3FoWgl5pVnCIuV_YvdwtMRlK18oyCgCkBhSgjTB73-_uy4";
+
+		$spotifyR = $this->spotifyService->getSpotifyPlaylists($spotifyToken);
 		return $this->json($spotifyR);
 		// ENREGISTRER
 	}
