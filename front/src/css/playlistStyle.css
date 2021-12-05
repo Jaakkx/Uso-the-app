@@ -7,9 +7,10 @@
     border-top-left-radius: 170px 170px;
     height: 88vh;
     width: 95vw;
-    position: absolute; bottom: 0px; right: 0px;
     background-color: white;
     z-index: 0;
+    margin-top: 0.4vh;
+    margin-left: 5vw;
 }
 .scroll1{
     height: 50%;
@@ -17,6 +18,7 @@
     border-top: black solid 1px;
     position: absolute; bottom: 0px; left: 0px;
     overflow: scroll;
+    margin-left: 5vw;
 }
 .music{
     height: 60px;
@@ -95,6 +97,7 @@ input{
     border:none;
     height: auto;
     width: 80%;
+    font-size: 18px;
 }
 
 .profil{
@@ -142,6 +145,26 @@ button.submitButton:hover{
     display: flex;
 }
 
+.buttonPlaylist{
+    border: none;
+    font-size: 1.1em;
+}
+
+.buttonPlaylist svg{
+    margin-right: 0.7vw;
+}
+
+.buttonPlaylist:hover{
+    border:none;
+    background-color: transparent;
+    color: black;
+}
+
+.playlistName{
+    padding: 0 0.8vw;
+    font-size: 1.1em;
+}
+
 /**************************************************************************************/
 /*Formulaire*/
 .osuForm{
@@ -150,6 +173,14 @@ button.submitButton:hover{
     margin-left: 60px;
 
     border: solid 1px black;
+    border-radius: 20px;
+}
+
+.playlistForm{
+    display: flex;
+    margin-left: 60px;
+    margin-top: 91px;
+
     border-radius: 20px;
 }
 

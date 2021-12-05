@@ -3,6 +3,10 @@ html{
     
 }
 
+.App{
+    height: 100vh;
+}
+
 *, *::after, *::before {
     margin: 0;
     padding: 0;
@@ -10,11 +14,10 @@ html{
 }
 
 body {
-    /*background-color: white;*/
-    /* background-image: url(lines.png); */
     background-repeat: no-repeat;
     background-position-x: right;
     font-family: 'Degular';
+    overflow: hidden;
 }
 
 .display-none{
@@ -38,7 +41,7 @@ body {
     text-transform: uppercase;
     letter-spacing: 4px;
 
-    margin: 62px 74px;
+    padding: 4vh 3vw;
 }
 a {
     text-decoration: none;
@@ -52,7 +55,7 @@ a.left
     font-family: degular, sans-serif;
     font-weight: 600;
     font-style: normal;
-    font-size: 36px;
+    font-size: 2.5rem;
 
     margin-right: 10px;
 }
@@ -162,7 +165,7 @@ li {
 
 h1{
     font-family: Degular;
-    font-size: 110px;
+    font-size: 6rem;
     font-style: normal;
     font-weight: 600;
     line-height: 90px;
@@ -172,7 +175,7 @@ h1{
 
 .playlistTitle{
     margin-left: 117px;
-    margin-top: 75px;
+    margin-top: 32.5px;
 }
 
 h1:nth-of-type(2n) {

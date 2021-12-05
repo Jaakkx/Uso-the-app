@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { sendPlaylist } from "../api";
-import search from "../assets/search.svg";
+import arrow from "../assets/arrow.svg";
 
 
 interface GetMusic{
@@ -49,20 +49,9 @@ class SpotifyPage extends React.Component<GetMusic>{
                 <div className="header">
                     <h1 className="playlistTitle">Nouvelle playlist</h1>
                 </div>
-                <div>
-                    {
-                        Object.keys(this.props.UseValue["idTab"] ? this.props.UseValue["idTab"]:"").map((key) => 
-                            <div>
-                                {
-                                    this.props.UseValue["idTab"][key]["title"]
-                                }
-                            </div>
-                        )    
-                    }
-                </div>
                 <form
                     onSubmit={this.handleSubmit}
-                    className="osuForm"
+                    className="playlistForm"
                 >
                     <input
                         name="playlistName"
@@ -75,12 +64,29 @@ class SpotifyPage extends React.Component<GetMusic>{
                     <button 
                         name="Create Playlist"
                         type="submit"
-                        className="button"
+                        className="buttonPlaylist"
                         value="Valider"
                     >
+                        <svg width="17" height="14" viewBox="0 0 17 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M16.668 7C12.802 7 9.66797 3.86599 9.66797 4.17233e-07" stroke="black" stroke-width="0.8"/>
+                            <path d="M9.66797 14C9.66797 10.134 12.802 7 16.668 7" stroke="black" stroke-width="0.8"/>
+                            <path d="M16.6667 7L0 7" stroke="black" stroke-width="0.8"/>
+                        </svg>
+                        Créer la playlist
                     </button>
 
                 </form>
+                <div className="scroll1">
+                    {
+                        Object.keys(this.props.UseValue["idTab"] ? this.props.UseValue["idTab"]:"").map((key) => 
+                            <div className="music">
+                                {
+                                    this.props.UseValue["idTab"][key]["title"]
+                                }
+                            </div>
+                        )    
+                    }
+                </div>
         </div>
 
         )
