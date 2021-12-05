@@ -159,13 +159,29 @@ class DefaultController extends AbstractController
 	/**
 	 * @Route("/createPlaylist", name="createPlaylist")
 	 */
-	public function createPlaylist(): Response
+	public function createPlaylist(Request $request): Response
 	{
+		$data = json_decode($request->getContent(), true);
+		// var_dump($data["name"]);
 		/** @var User $user */
 		$entityManager = $this->getDoctrine()->getManager();
 		$userDb = $entityManager->getRepository(User::class)->findAll();
-		$rSpotify = $this->spotifyService->createPlaylist($userDb);
+		$rSpotify = $this->spotifyService->createPlaylist($userDb, $data);
 		return $this->json($rSpotify);
+
+
+		// $params = json_decode($request->getContent(), true);
+		// if(!isset($params["pseudo"]) || empty($params['pseudo'])){
+		// 	throw new HttpException(400, 'Missing pseudo parameter.');
+		// }
+		// $osuT = $this->osuService->getOsuToken($params['pseudo']);
+		// $entityManager = $this->getDoctrine()->getManager();
+		// $userDb = $entityManager->getRepository(User::class)->findAll();
+		// $musicFromSpotify = $this->spotifyService->getOsuMusic($osuT, $userDb);
+		// return $this->json($musicFromSpotify);
+
+
+
 	}
 	
 	/**

@@ -66,7 +66,7 @@ class SpotifyService
 		return $SpotifyDataTab;
 	}
 	
-	public function createPlaylist($userDb):array
+	public function createPlaylist($userDb, $dataSpotify):array
 	{
 		// EN FAIRE UNE FONCTION A PART ENTIERE
 		$spotify_base_url = $this->parameterBag->get('spotify_base_url');
@@ -77,8 +77,7 @@ class SpotifyService
 			];
 		}
 		$lastToken = $return[sizeof($return) - 1]["tokenSpotify"];
-		//A RECUPERER DEPUIS LE FRONT
-		$newPlaylistName = "Nvlle playlist";
+		$newPlaylistName = $dataSpotify["name"];
 		$newPlaylistDesc = "Playlist créée par USO";
 		$newPlaylistState = 'true';
 		$playlistData = sprintf('{"name": "%s", "description": "%s", "public": %s}', $newPlaylistName, $newPlaylistDesc, $newPlaylistState);
@@ -93,12 +92,13 @@ class SpotifyService
 		]);
 		$newPlaylistId = json_decode($createPlaylist->getContent(),true);
 		$newPlaylistId = $newPlaylistId["id"];
-		$addMusicToPlaylist = $this->addMusicToPlaylist($userDb, $newPlaylistId);
+		$addMusicToPlaylist = $this->addMusicToPlaylist($userDb, $newPlaylistId, $dataSpotify);
 		return $addMusicToPlaylist;
 	}
 	
-		public function addMusicToPlaylist($userDb, $newPlaylistId){
+		public function addMusicToPlaylist($userDb, $newPlaylistId, $dataSpotify){
 			$spotify_base_url = $this->parameterBag->get('spotify_base_url');
+			$musicsIdArr = [];
 			foreach($userDb as $data){
 				$return [] = [
 					'id' => $data->getId(),
@@ -115,7 +115,12 @@ class SpotifyService
 			$playlistId = $newPlaylistId;
 			$tracksUrl = "";
 			// A RECUPERER DEPUIS LE FRONT
-			$musicsIdArr = ["5nF4iejReWqvsplMp6eer0", "2w3ScXudq4aD3K5HFO5xvx"];
+			foreach($dataSpotify["music"] as $key => $value){
+				foreach($value as $k => $v){
+					array_push($musicsIdArr, $v["id"]);
+				}
+			}
+			// $musicsIdArr = ["5nF4iejReWqvsplMp6eer0", "2w3ScXudq4aD3K5HFO5xvx"];
 			foreach ($musicsIdArr as $i => $id){
 				$tracksUrl = substr_replace($tracksUrl, "spotify:track:" . $id . ",", strlen($tracksUrl));
 				}

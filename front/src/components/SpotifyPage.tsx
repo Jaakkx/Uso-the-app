@@ -26,7 +26,7 @@ class SpotifyPage extends React.Component<GetMusic>{
         e.preventDefault();
 
         const { name } = this.state;
-        const {music} = this.props.UseValue;
+        const music = this.props.UseValue;
         try {
 
             // this.setState({musiquesList:[]});
