@@ -31,8 +31,8 @@ class OsuService
 		$this->httpClient = $httpClient;
 		$this->parameterBag = $paramaterBag;
 	}
-	// public function getOsuToken(string $pseudo): array
-	public function getOsuToken(): array
+	public function getOsuToken(string $pseudo): array
+	// public function getOsuToken(): array
 	{
 		$osuBaseUrl = $this->parameterBag->get('osu_base_url');
 		$osuUserUrl = $this->parameterBag->get('osu_user_url');
@@ -51,8 +51,8 @@ class OsuService
 		$token = json_decode($response->getContent(), true)["access_token"];
 		$authorizationHeader = sprintf('Bearer %s', $token);
 		// A DEFINIR EN FRONT
-		// $osuUserPseudo = $pseudo;
-		$osuUserPseudo = "yosh1ko";
+		$osuUserPseudo = $pseudo;
+		// $osuUserPseudo = "yosh1ko";
 		$osuUserIdUrl = $osuUserUrl . $osuUserPseudo;
 		$responseUserId = $this->httpClient->request('GET', $osuUserIdUrl, [
 			'headers'=>[
@@ -84,9 +84,7 @@ class OsuService
 					'scope' => 'public',
 				],
 			]);
-
 		$musicTitleTab = [];
-		$mmm = [];
 		$musicInfos = json_decode($responseBeatmaps->getContent(), true);
 		// return $musicInfos;
 		// return $responseBeatmaps;

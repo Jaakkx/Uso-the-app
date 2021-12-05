@@ -1,13 +1,32 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+import "./css/style.css";
+import './css/playlistStyle.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { render } from "react-dom";
+import { 
+
+  BrowserRouter,
+  Routes,
+  Route
+
+} from "react-router-dom";
+import PlaylistPage from './components/PlaylistPage';
+import GetToken from './components/GetToken';
+
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <BrowserRouter>
+    <React.StrictMode>
+        <Routes>
+          <Route path="/" element={<App />}/>
+          <Route path="playlist-creator" element={<PlaylistPage/>} />
+          <Route path="getToken" element={<GetToken />} />
+        </Routes>
+    </React.StrictMode>
+  </BrowserRouter>,
   document.getElementById('root')
 );
 
