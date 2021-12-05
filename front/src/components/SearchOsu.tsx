@@ -2,17 +2,6 @@ import React, { useState } from "react";
 import { getOsuPseudo } from "../api";
 import search from "../assets/search.svg";
 
-
-export type State = {
-    pseudo: string,
-    musiquesList: any,
-    oldColor:number,
-    hovered:boolean,
-    color:string,
-    idTab:any,
-    
-};
-
 export type Props = {
     onSuccess:(data:any)=>void;
 }
@@ -23,7 +12,7 @@ class SearchOsu extends React.Component<Props>{
         musiquesList: [],
         oldColor:0,
         hovered:false,
-        color:"",
+        color:"rose",
         idTab: [""],
         ok:true,
     }
@@ -67,10 +56,6 @@ class SearchOsu extends React.Component<Props>{
             this.setState({idTab:interTab});
             this.props.onSuccess({idTab:interTab}); 
         }
-        window.localStorage.setItem('idTab',JSON.stringify(this.state.idTab));
-        window.onstorage = () => {
-            return("test");
-        }
     }
 
     handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
@@ -89,6 +74,7 @@ class SearchOsu extends React.Component<Props>{
     }
 
     render() {
+
         return(
             <div className="bloc2">
                 <div className="header">
@@ -114,7 +100,7 @@ class SearchOsu extends React.Component<Props>{
                 <div className="scroll2">
                     {
                         this.state.musiquesList.map(item => (
-                            <div  className={"music " + this.state.color} onClick={() => this.onClick(item)} onMouseEnter={() => this.onMouseEnter()} onMouseLeave={() => this.onMouseLeave()}>
+                            <div className={"music music1 " + this.state.color} onClick={() => this.onClick(item)} onMouseEnter={() => this.onMouseEnter()} onMouseLeave={() => this.onMouseLeave()}>
                                 {item['title']}
                             </div>
                         ))
