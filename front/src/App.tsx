@@ -20,7 +20,7 @@ class App extends React.Component<{}, AppState> {
       <div className="App">
         <Banner />
         {/* <Link to="/playlist-creator">Connexion à Spotify</Link> */}
-        <a href="http://localhost:8081/oauth">Connexion à Spotify</a>
+        <a href="http://uso-api.jael-beining.fr/oauth">Connexion à Spotify</a>
         {/* <PlaylistPage /> */}
       </div>
     );
