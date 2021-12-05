@@ -1,6 +1,7 @@
 /***********************************************************************************/
 
 .bloc1{
+    position: relative;
     border: solid black 1px;
     border-right: 0;
     border-bottom: 0;
@@ -13,21 +14,25 @@
     margin-left: 5vw;
 }
 .scroll1{
-    height: 50%;
+    height: 62.2%;
     width: 60%;
     border-top: black solid 1px;
     position: absolute; bottom: 0px; left: 0px;
     overflow: scroll;
-    margin-left: 5vw;
 }
 .music{
-    height: 60px;
-    border-top: solid black 1px;
+    height: 20.7%;
+    border-bottom: solid black 1px;
     display: flex;
     align-items: center;
     padding: 10px;
     cursor: pointer;
 }
+
+.music2{
+    height: 12.85%;
+}
+
 .music.orange:hover{
     background-color: #FD7E40;
 }
@@ -65,8 +70,9 @@
 }
 
 .scroll2{
-    height: 48%;
+    height: 51%;
     width: 100%;
+    border-top: black solid 1px;
     position: absolute; bottom: 0px; left: 0px;
     overflow: scroll;
 }
@@ -106,7 +112,7 @@ input{
     margin-left: 60px;
 }
 .profilName{
-
+    
     margin-left: 50px;
     padding-top: 20px;
 }
@@ -148,6 +154,38 @@ button.submitButton:hover{
 .buttonPlaylist{
     border: none;
     font-size: 1.1em;
+}
+
+.buttonPlaylist.orange:hover{
+    color: #FD7E40;
+}
+.buttonPlaylist.vert:hover{
+    color: #3DB372;
+}
+.buttonPlaylist.bleu:hover{
+    color: #4A7DF2;
+}
+.buttonPlaylist.rose:hover{
+    color: #F31EEB;
+}
+.buttonPlaylist.jaune:hover{
+    color: #F9B125;
+}
+
+.buttonPlaylist.orange:hover svg path{
+    stroke: #FD7E40;
+}
+.buttonPlaylist.vert:hover svg path{
+    stroke: #3DB372;
+}
+.buttonPlaylist.bleu:hover svg path{
+    stroke: #4A7DF2;
+}
+.buttonPlaylist.rose:hover svg path{
+    stroke: #F31EEB;
+}
+.buttonPlaylist.jaune:hover svg path{
+    stroke: #F9B125;
 }
 
 .buttonPlaylist svg{

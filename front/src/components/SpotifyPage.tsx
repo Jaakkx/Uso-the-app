@@ -12,7 +12,35 @@ class SpotifyPage extends React.Component<GetMusic>{
     state= {
         tab:[],
         name:"",
+        hovered:false,
+        oldColor:0,
+        color:"bleu",
     }
+
+    color = () => {
+        let color = ["vert","bleu", "rose", "orange", "jaune"];
+        let colorValue = Math.floor(Math.random() * (color.length ));
+
+        if(this.state.hovered){
+            if(colorValue == this.state.oldColor){
+                colorValue = Math.floor(Math.random() * (color.length ));
+            }else{
+                this.setState({oldColor:colorValue});
+                this.setState({color : color[colorValue]});
+            }
+        }
+    }
+
+    onMouseEnter = () => {
+        this.setState({ hovered: true });
+        this.color();
+    };
+    
+    onMouseLeave = () => {
+        this.setState({ hovered: false });
+        this.color();
+    };
+
 
     componentDidUpdate(prevstate:any){
         prevstate=this.state.tab;
@@ -62,10 +90,12 @@ class SpotifyPage extends React.Component<GetMusic>{
                     >
                     </input>
                     <button 
-                        name="Create Playlist"
+                        name={"Create Playlist "}
                         type="submit"
-                        className="buttonPlaylist"
+                        className={"buttonPlaylist " + this.state.color}
                         value="Valider"
+                        onMouseEnter={() => this.onMouseEnter()}
+                        onMouseLeave={() => this.onMouseLeave()}
                     >
                         <svg width="17" height="14" viewBox="0 0 17 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M16.668 7C12.802 7 9.66797 3.86599 9.66797 4.17233e-07" stroke="black" stroke-width="0.8"/>
@@ -79,7 +109,7 @@ class SpotifyPage extends React.Component<GetMusic>{
                 <div className="scroll1">
                     {
                         Object.keys(this.props.UseValue["idTab"] ? this.props.UseValue["idTab"]:"").map((key) => 
-                            <div className="music">
+                            <div className={"music music2 " + this.state.color} onMouseEnter={() => this.onMouseEnter()} onMouseLeave={() => this.onMouseLeave()}>
                                 {
                                     this.props.UseValue["idTab"][key]["title"]
                                 }

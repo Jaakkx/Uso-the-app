@@ -12,7 +12,7 @@ class SearchOsu extends React.Component<Props>{
         musiquesList: [],
         oldColor:0,
         hovered:false,
-        color:"",
+        color:"rose",
         idTab: [""],
         ok:true,
     }
@@ -74,6 +74,7 @@ class SearchOsu extends React.Component<Props>{
     }
 
     render() {
+
         return(
             <div className="bloc2">
                 <div className="header">
@@ -99,7 +100,7 @@ class SearchOsu extends React.Component<Props>{
                 <div className="scroll2">
                     {
                         this.state.musiquesList.map(item => (
-                            <div  className={"music " + this.state.color} onClick={() => this.onClick(item)} onMouseEnter={() => this.onMouseEnter()} onMouseLeave={() => this.onMouseLeave()}>
+                            <div className={"music music1 " + this.state.color} onClick={() => this.onClick(item)} onMouseEnter={() => this.onMouseEnter()} onMouseLeave={() => this.onMouseLeave()}>
                                 {item['title']}
                             </div>
                         ))
