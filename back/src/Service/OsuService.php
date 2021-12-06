@@ -37,6 +37,7 @@ class OsuService
 		$osuUserUrl = $this->parameterBag->get('osu_user_url');
 		$osuSecret = $this->parameterBag->get('osu_secret');
 		$osuClientId = $this->parameterBag->get('osu_client_id');
+		//Récupérer le token de l'api OSU pour faire des requêtes à cette dernière
 		$response = $this->httpClient->request('POST', $osuBaseUrl, [
 			'headers'=>['Accept' => 'application/json'],
 			'body'=>[
@@ -50,6 +51,7 @@ class OsuService
 		$authorizationHeader = sprintf('Bearer %s', $token);
 		$osuUserPseudo = $pseudo;
 		$osuUserIdUrl = $osuUserUrl . $osuUserPseudo;
+		//Récupérer le profile du joueur OSU associé au pseudo rentré dans le front
 		$responseUserId = $this->httpClient->request('GET', $osuUserIdUrl, [
 			'headers'=>[
 				'Accept' => 'application/json',
@@ -66,8 +68,9 @@ class OsuService
 			$userAvatar = json_decode($responseUserId->getContent(), true)["avatar_url"];
 			$userBmapsCount = json_decode($responseUserId->getContent(), true)["beatmap_playcounts_count"];
 			$musicRenderType = "most_played";
-			$musicRenderLimit = 20;
+			$musicRenderLimit = 200;
 			$osuMusicSearchUrl = sprintf("https://osu.ppy.sh/api/v2/users/%s/beatmapsets/%s?limit=%s", $userId, $musicRenderType, $musicRenderLimit);
+			// Récupérer la liste des musiques ("Beatmaps") jouées par le joueur récupéré
 			$responseBeatmaps = $this->httpClient->request('GET', $osuMusicSearchUrl, [
 				'headers'=>[
 					'Accept' => 'application/json',
@@ -93,7 +96,6 @@ class OsuService
 			$musicTitle = str_replace(" (Swing Arrangement)", "", $musicTitle);
 			$musicTitle = str_replace(' (From "Kaguya-sama: Love is War")', "", $musicTitle);
 			$musicTitle = str_replace('[ISORA arrange]', "", $musicTitle);
-			// $musicTitle = str_replace(" 〜NARUTO OPENING MIX〜", "", $musicTitle);
 			if (strpos($musicTitle, "feat")){
 				$musicTitle = stristr($musicTitle, " feat", true);
 			}
