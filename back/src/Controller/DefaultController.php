@@ -85,6 +85,22 @@ class DefaultController extends AbstractController
 			redirect_uri=http://127.0.0.1:8081/exchange_token&scope=user-read-private,playlist-modify-private,playlist-modify-public'
 			);
 	}
+
+	/**
+	 * @Route("/pseudo", name="pseudo")
+	 */
+	public function pseudo(Request $request): Response
+	{
+		$params = json_decode($request->getContent(), true);
+		if(!isset($params["pseudo"]) || empty($params['pseudo'])){
+			throw new HttpException(400, 'Missing pseudo parameter.');
+		}
+		$osuT = $this->osuService->getOsuToken($params['pseudo']);
+		$entityManager = $this->getDoctrine()->getManager();
+		$userDb = $entityManager->getRepository(User::class)->findAll();
+		$musicFromSpotify = $this->spotifyService->getOsuMusic($osuT, $userDb);
+		return $this->json($musicFromSpotify);
+	}
 	
 	/**
 	 * @Route("/exchange_token", name="exchange_token")
@@ -96,7 +112,7 @@ class DefaultController extends AbstractController
 		$spotifySecret = $this->parameterBag->get('spotify_secret');
 		try {
 			$body = [
-				'redirect_uri' => 'http://127.0.0.1:8081/exchange_token',
+				'redirect_uri' => 'http://uso-api.jael-beining.fr/exchange_token',
 				'code' => $authorization_code,
 				'grant_type' => 'authorization_code'
 			];
@@ -128,7 +144,7 @@ class DefaultController extends AbstractController
 		$entityManager->persist($newUser);
 		$entityManager->flush();
 		// return $this->redirect("http://127.00.1:8081/");
-		return $this->redirect("http://127.0.0.1:3000/getToken?token=" . $tokenUser);
+		return $this->redirect("http://uso.jael-beining.fr/getToken?token=" . $tokenUser);
 	}
 
 	/**
