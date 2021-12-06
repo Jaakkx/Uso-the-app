@@ -15,59 +15,69 @@ class SearchOsu extends React.Component<Props>{
         color:"rose",
         idTab: [""],
         ok:true,
+        linkAvatar:"",
+        beatmap:"",
+        realPseudo:"",
     }
 
-    color = () => {
+    color = (ok:boolean, id:string) => {
         let color = ["vert","bleu", "rose", "orange", "jaune"];
         let colorValue = Math.floor(Math.random() * (color.length ));
 
-        if(this.state.hovered){
-            if(colorValue == this.state.oldColor){
-                colorValue = Math.floor(Math.random() * (color.length ));
-            }else{
-                this.setState({oldColor:colorValue});
-                this.setState({color : color[colorValue]});
+        if(ok){
+            if(this.state.hovered){
+                if(colorValue == this.state.oldColor){
+                    colorValue = Math.floor(Math.random() * (color.length ));
+                }else{
+                    this.setState({oldColor:colorValue});
+                    this.setState({color : color[colorValue]});
+                    document.getElementById("number"+id)!.className = "music music1 "+this.state.color;
+                }
             }
         }
     }
 
-    onMouseEnter = () => {
+    onMouseEnter = (ok:boolean,id:string) => {
         this.setState({ hovered: true });
-        this.color();
+        this.color(ok, id);
     };
     
-    onMouseLeave = () => {
+    onMouseLeave = (ok:boolean,id:string) => {
         this.setState({ hovered: false });
-        this.color();
+        this.color(ok, id);
     };
 
     onChange = (e: React.FormEvent<HTMLInputElement>): void =>{
         this.setState({ pseudo: e.currentTarget.value});
     }
 
-    onClick = (id:string) => {
+    onClick = (id:string, number:string) => {  
+
         this.setState({idTab:[]});
         let interTab = this.state.idTab;
-        if(!this.state.idTab.includes(id)){
-            interTab.push(id);
-            this.setState({idTab:interTab});
-            this.props.onSuccess({idTab:interTab});
-        }else{
-            this.setState({idTab:interTab});
-            this.props.onSuccess({idTab:interTab}); 
-        }
+        interTab.push(id);
+        this.setState({idTab:interTab});
+        this.props.onSuccess({idTab:interTab});
+        document.getElementById("number"+number)!.className = "display-none";
+        console.log(document.getElementById("number"+number));
+        
     }
-
+    
     handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-
+        
         const { pseudo } = this.state;
         try {
-
+            
             this.setState({musiquesList:[]});
             const login = await getOsuPseudo({ pseudo });
             this.setState({musiquesList: login});
-
+            this.setState({linkAvatar:this.state.musiquesList[1]["avatar"]});
+            this.setState({beatmap:this.state.musiquesList[1]["baetmapsCount"]});
+            this.setState({realPseudo:this.state.pseudo});  
+            console.log(this.state.musiquesList[0]);
+              
+            
         } catch (error) {
             alert(error);
         }
@@ -96,14 +106,60 @@ class SearchOsu extends React.Component<Props>{
                         </button>
                     </form>
                 </div>
-
+                <div>
+                {
+                    <div className="avatarParent">
+                        <img src={this.state.linkAvatar} className={this.state.linkAvatar ? "Avatar":""} alt=""></img> 
+                        <div>
+                            <p>
+                                {
+                                    this.state.realPseudo                               
+                                }
+                            </p>
+                            <p>
+                                {this.state.beatmap ? "Nombre de Beatmaps jouées: " : ""}
+                                <span >{this.state.beatmap}</span>
+                            </p>
+                        </div>
+                    </div>    
+                }
+                </div>
                 <div className="scroll2">
                     {
-                        this.state.musiquesList.map(item => (
-                            <div className={"music music1 " + this.state.color} onClick={() => this.onClick(item)} onMouseEnter={() => this.onMouseEnter()} onMouseLeave={() => this.onMouseLeave()}>
-                                {item['title']}
+                        Object.keys(this.state.musiquesList[0] ? this.state.musiquesList[0]:"").map((key) => 
+                           
+                        <div 
+                                key={key} 
+                                className={"music music1 "} 
+                                id={"number"+this.state.musiquesList[0][key]["id"]}
+                                onClick={() => {                                    
+                                    this.onClick(this.state.musiquesList[0][key],this.state.musiquesList[0][key]["id"])
+                                    // this.onMouseEnter(false)
+                                } 
+                                } 
+                                onMouseEnter={() => {
+
+                                    if(document.querySelector("#number"+this.state.musiquesList[0][key]["id"]+".display-none") === null){
+                                        this.onMouseEnter(true, this.state.musiquesList[0][key]["id"]);
+                                    }else{
+                                        this.onMouseEnter(false, this.state.musiquesList[0][key]["id"]);
+                                    }
+                                }}
+
+                                onMouseLeave={() => {
+
+                                    if(document.querySelector("#number"+this.state.musiquesList[0][key]["id"]+".display-none") === null){
+                                        this.onMouseLeave(true, this.state.musiquesList[0][key]["id"]);
+                                    }else{
+                                        this.onMouseLeave(false, this.state.musiquesList[0][key]["id"]);
+                                    }                                    
+                                }}
+                            >
+                                {
+                                    this.state.musiquesList[0][key]["title"]
+                                }
                             </div>
-                        ))
+                        )
                     }
                 </div>
             </div>

@@ -141,7 +141,6 @@ class DefaultController extends AbstractController
 			throw new HttpException(400, 'Missing pseudo parameter.');
 		}
 		$osuT = $this->osuService->getOsuToken($params['pseudo']);
-		return $this->json($osuT);
 		$entityManager = $this->getDoctrine()->getManager();
 		$userDb = $entityManager->getRepository(User::class)->findAll();
 		$lastToken = $this->spotifyService->getLastToken($userDb);
@@ -175,20 +174,20 @@ class DefaultController extends AbstractController
 
 // ---------- Routes inutilisées ----------
 
-// /**
-//  * @Route("/userToken", name="userToken")
-//  */
-// public function userToken(Request $request): Response
-// {
-// 	/** @var User $user */
-// 	$user = $this->userService->getUserFromRequest($request);
-// 	// return $user;
-// 	if (null === $user) {
-// 		return new Response('Unauthorized', 401);
-// 	}
-// 	var_dump($user->getTokenSpotify());
-// 	$spotifyToken = $user->getTokenSpotify();
-// }
+	// /**
+	//  * @Route("/userToken", name="userToken")
+	//  */
+	// public function userToken(Request $request): Response
+	// {
+	// 	/** @var User $user */
+	// 	$user = $this->userService->getUserFromRequest($request);
+	// 	// return $user;
+	// 	if (null === $user) {
+	// 		return new Response('Unauthorized', 401);
+	// 	}
+	// 	var_dump($user->getTokenSpotify());
+	// 	$spotifyToken = $user->getTokenSpotify();
+	// }
 
 	// /**
 	//  * @Route("/update", name="update")

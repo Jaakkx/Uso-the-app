@@ -21,7 +21,7 @@ body {
 }
 
 .display-none{
-    display: none;
+    display: none !important;
 }
 
 .navbar {
@@ -43,9 +43,57 @@ body {
 
     padding: 4vh 3vw;
 }
+
 a {
     text-decoration: none;
     color: black;
+}
+
+a.spotifyConnexion{
+    text-align: left;
+    font-size: 1.8em;
+    color:white;
+    margin-left: 20%;
+    display: flex;
+    align-items: center;
+    border: black solid 1px;
+    width: 70%;
+    height: 40vh;
+    margin-top: 8%;
+    float: right;
+    border-top-left-radius: 222px 222px;
+    border-bottom-left-radius: 222px 222px;
+    background-color: #FD7E40;
+}
+
+a.spotifyConnexion span{
+    font-weight: 600;
+    margin-left: 1%;
+}
+
+a.spotifyConnexion svg{
+    margin-right: 1%;
+    margin-left: 20%;
+}
+
+a.spotifyConnexion svg path{
+    stroke: white;
+}
+
+a.spotifyConnexion.orange:hover{
+    background-color: #FD7E40;
+}
+a.spotifyConnexion.vert:hover{
+    background-color: #3DB372;
+}
+a.spotifyConnexion.bleu:hover{
+    background-color: #4A7DF2;
+}
+a.spotifyConnexion.rose:hover{
+    background-color: #F31EEB;
+}
+a.spotifyConnexion.jaune:hover{
+    background-color: #F9B125;
 }
 /*****/
 /*underline*/
@@ -159,13 +207,13 @@ li {
 .title{
     position: relative; 
     margin-top: 7%;
-    margin-left: 20%;
+    margin-left: 5%;
     width: 70%;
 }
 
 h1{
     font-family: Degular;
-    font-size: 6rem;
+    font-size: 7rem;
     font-style: normal;
     font-weight: 600;
     line-height: 90px;
@@ -173,14 +221,19 @@ h1{
     text-align: left;
 }
 
-.playlistTitle{
-    margin-left: 117px;
-    margin-top: 32.5px;
+h1:first-of-type{
+    margin-left: 7%;
 }
 
-h1:nth-of-type(2n) {
-    margin-left: 27%;
-  }
+h1.playlistTitle:first-of-type{
+    font-size: 6rem;
+    margin-left: 117px;
+    margin-top: 97.5px;
+}
+
+
+
+
 
 /************************************************************************************/
 /*boutton*/
@@ -213,22 +266,17 @@ button{
 }
 
 /**************************************************************************************/
-/*line*/
-/*.line{
-    width: 80%;
-    height: 47px;
-    border-bottom: 1px solid black;
-    position: absolute; right: 0px; top: 100px;
-    }
-.line2{
-    width: 80%;
-    height: 47px;
-    border-bottom: 1px solid black;
-    position: absolute; left: -30%; top: 120%;
-    transform: rotate(90deg);
-    }*/
+.blocConnect{
+    height: 88vh;
+    width: 95vw;
+    border: solid black 1px;
+    border-right: 0;
+    border-bottom: 0;
+    border-top-left-radius: 250px 250px;
+    margin-top: 0.4vh;
+    margin-left: 5vw;
 
-
+}
 /**************************************************************************************/
 /*second page*/
 .second{

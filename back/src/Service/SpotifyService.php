@@ -68,7 +68,8 @@ class SpotifyService
 	
 		public function getOsuMusic($osuT, $lastToken){
 			$tab = [];
-			foreach($osuT as $key => $value){
+			$returnTab = [];
+			foreach($osuT[0] as $key => $value){
 				$title = $value["titre"];
 				$urlMusics = sprintf("https://api.spotify.com/v1/search?q=track:%s&type=track&market=FR&limit=1", $title);
 				// Vérifier si les musiques récupérées sur le profile OSU rentré sont disponibles sur spotify
@@ -88,7 +89,12 @@ class SpotifyService
 					array_push($tab, ["id" => $musicId, "title" => $musicTitle]);
 				}
 			}
-			return $tab;
+			if (sizeof($tab) === 0){
+				return "Pas de musique sur ce joueur";
+			}
+			array_push($returnTab, $tab);
+			array_push($returnTab, ["avatar" => $osuT[1]["avatar"], "baetmapsCount" => $osuT[1]["baetmapsCount"]]);
+			return $returnTab;
 		}
 		
 		public function getSpotifyId($lastToken): string

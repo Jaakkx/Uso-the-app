@@ -14,7 +14,7 @@ export const getOsuPseudo = async (user: OsuUser): Promise<OsuUser>=> {
         )
         return res.data;
     } catch(error) {
-        throw new Error("Erreur dans le pseudo ou pseudo inexistant");
+        throw new Error("Problème lors de la récupération de cet utilisateur");
     }
 }; 
 
@@ -26,6 +26,6 @@ export const sendPlaylist = async (tab:PlaylistReturn): Promise<PlaylistReturn> 
         )
         return res.data;
     }catch(error){
-        throw new Error("Fdp revois tes requête");
+        throw new Error("Problème lors de la création de la Playlist");
     }
 }
