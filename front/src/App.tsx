@@ -20,7 +20,6 @@ class App extends React.Component<{}, AppState> {
     return (
       <div className="App">
         <ConnexionPage />
-        {/* <a href="http://localhost:8081/oauth">Connexion à Spotify</a> */}
       </div>
     );
   }

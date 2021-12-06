@@ -82,7 +82,7 @@ class DefaultController extends AbstractController
 			'https://accounts.spotify.com/authorize?
 			client_id=29ced1155da2459f8e661f5beac00a74&
 			response_type=code&
-			redirect_uri=http://127.0.0.1:8081/exchange_token&scope=user-read-private,playlist-modify-private,playlist-modify-public'
+			redirect_uri=http://uso-api.jael-beining.fr/exchange_token&scope=user-read-private,playlist-modify-private,playlist-modify-public'
 			);
 	}
 
