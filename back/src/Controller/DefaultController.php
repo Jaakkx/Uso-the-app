@@ -78,28 +78,7 @@ class DefaultController extends AbstractController
 	 */
 	public function oauth(): Response
 	{
-		return $this->redirect(
-			'https://accounts.spotify.com/authorize?
-			client_id=29ced1155da2459f8e661f5beac00a74&
-			response_type=code&
-			redirect_uri=http://uso-api.jael-beining.fr/exchange_token&scope=user-read-private,playlist-modify-private,playlist-modify-public'
-			);
-	}
-
-	/**
-	 * @Route("/pseudo", name="pseudo")
-	 */
-	public function pseudo(Request $request): Response
-	{
-		$params = json_decode($request->getContent(), true);
-		if(!isset($params["pseudo"]) || empty($params['pseudo'])){
-			throw new HttpException(400, 'Missing pseudo parameter.');
-		}
-		$osuT = $this->osuService->getOsuToken($params['pseudo']);
-		$entityManager = $this->getDoctrine()->getManager();
-		$userDb = $entityManager->getRepository(User::class)->findAll();
-		$musicFromSpotify = $this->spotifyService->getOsuMusic($osuT, $userDb);
-		return $this->json($musicFromSpotify);
+		return $this->redirect('https://accounts.spotify.com/authorize?client_id=29ced1155da2459f8e661f5beac00a74&response_type=code&redirect_uri=http://uso-api.jael-beining.fr/exchange_token&scope=user-read-private,playlist-modify-private,playlist-modify-public');
 	}
 	
 	/**
