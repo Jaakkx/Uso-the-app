@@ -32,13 +32,12 @@ class OsuService
 		$this->parameterBag = $paramaterBag;
 	}
 	public function getOsuToken(string $pseudo): array
-	// public function getOsuToken(): array
 	{
 		$osuBaseUrl = $this->parameterBag->get('osu_base_url');
 		$osuUserUrl = $this->parameterBag->get('osu_user_url');
-		// $osuMusicUrl = $this->parameterBag->get('osu_music_url');
 		$osuSecret = $this->parameterBag->get('osu_secret');
 		$osuClientId = $this->parameterBag->get('osu_client_id');
+		//Récupérer le token de l'api OSU pour faire des requêtes à cette dernière
 		$response = $this->httpClient->request('POST', $osuBaseUrl, [
 			'headers'=>['Accept' => 'application/json'],
 			'body'=>[
@@ -50,10 +49,9 @@ class OsuService
 		]);
 		$token = json_decode($response->getContent(), true)["access_token"];
 		$authorizationHeader = sprintf('Bearer %s', $token);
-		// A DEFINIR EN FRONT
 		$osuUserPseudo = $pseudo;
-		// $osuUserPseudo = "yosh1ko";
 		$osuUserIdUrl = $osuUserUrl . $osuUserPseudo;
+		//Récupérer le profile du joueur OSU associé au pseudo rentré dans le front
 		$responseUserId = $this->httpClient->request('GET', $osuUserIdUrl, [
 			'headers'=>[
 				'Accept' => 'application/json',
@@ -66,12 +64,13 @@ class OsuService
 				'scope' => 'public',
 			],
 		]);
-
-			// A DEFINIR EN FRONT
 			$userId = json_decode($responseUserId->getContent(), true)["id"];
+			$userAvatar = json_decode($responseUserId->getContent(), true)["avatar_url"];
+			$userBmapsCount = json_decode($responseUserId->getContent(), true)["beatmap_playcounts_count"];
 			$musicRenderType = "most_played";
 			$musicRenderLimit = 200;
 			$osuMusicSearchUrl = sprintf("https://osu.ppy.sh/api/v2/users/%s/beatmapsets/%s?limit=%s", $userId, $musicRenderType, $musicRenderLimit);
+			// Récupérer la liste des musiques ("Beatmaps") jouées par le joueur récupéré
 			$responseBeatmaps = $this->httpClient->request('GET', $osuMusicSearchUrl, [
 				'headers'=>[
 					'Accept' => 'application/json',
@@ -85,11 +84,10 @@ class OsuService
 				],
 			]);
 		$musicTitleTab = [];
+		$returnTab = [];
 		$musicInfos = json_decode($responseBeatmaps->getContent(), true);
-		// return $musicInfos;
-		// return $responseBeatmaps;
 		foreach ($musicInfos as $key => $v){
-			$musicTitle = $musicInfos[$key]["beatmapset"]["title"];
+			$musicTitle = $v["beatmapset"]["title"];
 			$musicTitle = str_replace(" (TV Size)", "", $musicTitle);
 			$musicTitle = str_replace(" (TV edit)", "", $musicTitle);
 			$musicTitle = str_replace(" [TV Size]", "", $musicTitle);
@@ -98,15 +96,14 @@ class OsuService
 			$musicTitle = str_replace(" (Swing Arrangement)", "", $musicTitle);
 			$musicTitle = str_replace(' (From "Kaguya-sama: Love is War")', "", $musicTitle);
 			$musicTitle = str_replace('[ISORA arrange]', "", $musicTitle);
-			// $musicTitle = str_replace(" 〜NARUTO OPENING MIX〜", "", $musicTitle);
 			if (strpos($musicTitle, "feat")){
 				$musicTitle = stristr($musicTitle, " feat", true);
 			}
 			$musicId = $musicInfos[$key]["beatmap"]["beatmapset_id"];
-			// $musicId = $musicInfos[$key]["beatmap_id"];
-			array_push($musicTitleTab, ["id" =>$musicId, "titre" => $musicTitle]);
+			array_push($musicTitleTab, ["id" => $musicId, "titre" => $musicTitle]);
 		}
-		// return $musicInfos;
-		return $musicTitleTab;
+		array_push($returnTab, $musicTitleTab);
+		array_push($returnTab, ["avatar" => $userAvatar, "baetmapsCount" => $userBmapsCount]);
+		return $returnTab;
 	}
 }

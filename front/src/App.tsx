@@ -4,6 +4,7 @@ import "./App.css";
 import Banner from "./components/Banner";
 import PlaylistPage from "./components/PlaylistPage";
 import { Link } from "react-router-dom";
+import ConnexionPage from "./components/ConnexionPage";
 
 export type AppState = {
   searchName: string | undefined;
@@ -18,10 +19,8 @@ class App extends React.Component<{}, AppState> {
     const { searchName } = this.state;
     return (
       <div className="App">
-        <Banner />
-        {/* <Link to="/playlist-creator">Connexion à Spotify</Link> */}
-        <a href="http://uso-api.jael-beining.fr/oauth">Connexion à Spotify</a>
-        {/* <PlaylistPage /> */}
+        <ConnexionPage />
+        {/* <a href="http://localhost:8081/oauth">Connexion à Spotify</a> */}
       </div>
     );
   }

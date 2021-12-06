@@ -62,11 +62,9 @@ class DefaultController extends AbstractController
 	{
 		$entityManager = $this->getDoctrine()->getManager();
 		$userDb = $entityManager->getRepository(User::class)->findAll();
-		// $osuT = $this->osuService->getOsuToken();
-		// $musicFromSpotify = $this->spotifyService->getOsuMusic($osuT, $userDb);
 		/** @var User $user */
 		$user = $this->userService->getUserFromRequest($request);
-		// return $user;
+		return $user;
 		if (null === $user) {
 			return new Response('Unauthorized', 401);
 		}
@@ -80,7 +78,12 @@ class DefaultController extends AbstractController
 	 */
 	public function oauth(): Response
 	{
-		return $this->redirect('https://accounts.spotify.com/authorize?client_id=29ced1155da2459f8e661f5beac00a74&response_type=code&redirect_uri=http://uso-api.jael-beining.fr/exchange_token&scope=user-read-private,playlist-modify-private,playlist-modify-public');
+		return $this->redirect(
+			'https://accounts.spotify.com/authorize?
+			client_id=29ced1155da2459f8e661f5beac00a74&
+			response_type=code&
+			redirect_uri=http://127.0.0.1:8081/exchange_token&scope=user-read-private,playlist-modify-private,playlist-modify-public'
+			);
 	}
 
 	/**
@@ -98,7 +101,7 @@ class DefaultController extends AbstractController
 		$musicFromSpotify = $this->spotifyService->getOsuMusic($osuT, $userDb);
 		return $this->json($musicFromSpotify);
 	}
-
+	
 	/**
 	 * @Route("/exchange_token", name="exchange_token")
 	 */
@@ -135,7 +138,6 @@ class DefaultController extends AbstractController
 		$spotifyAccessToken = $json_response['access_token'];
 		$bytes = random_bytes(20);
 		$tokenUser = bin2hex($bytes);
-		// $userDb = $entityManager->getRepository(User::class)->findAll();
 		$newUser = new User();
 		$newUser->setTokenSpotify($spotifyAccessToken);
 		$newUser->setTokenUser($tokenUser);
@@ -146,55 +148,34 @@ class DefaultController extends AbstractController
 	}
 
 	/**
-	 * @Route("/spotifyRequest", name="spotifyRequest")
+	 * @Route("/pseudo", name="pseudo")
 	 */
-	public function spotifyRequest(Request $request): Response
+	public function pseudo(Request $request): Response
 	{
+		$params = json_decode($request->getContent(), true);
+		if(!isset($params["pseudo"]) || empty($params['pseudo'])){
+			throw new HttpException(400, 'Missing pseudo parameter.');
+		}
+		$osuT = $this->osuService->getOsuToken($params['pseudo']);
 		$entityManager = $this->getDoctrine()->getManager();
 		$userDb = $entityManager->getRepository(User::class)->findAll();
-		// $osuT = $this->osuService->getOsuToken();
-		// $musicFromSpotify = $this->spotifyService->getOsuMusic($osuT, $userDb);
-		/** @var User $user */
-		// $user = $this->userService->getUserFromRequest($request);
-		// return $user;
-		// if (null === $user) {
-		// 	return new Response('Unauthorized', 401);
-		// }
-		// $spotifyToken = $user->getTokenSpotify();
-
-		$spotifyToken = "BQDHiadE5bDa1e5x7kUdn8DmGsBSxecsSEb_Uoq6f6c5EisgQBsrtw1u2lN_QmytvBujsz5jf7y0l4yQxgc4txLTr0Se8wqjvw__-vDB-fFLnbqz1JsfMP-7szAREfFc7btFblUpmcBuxjrmH6GmyfCdT_-HI8uMUDV65bNtH3FoWgl5pVnCIuV_YvdwtMRlK18oyCgCkBhSgjTB73-_uy4";
-
-		$spotifyR = $this->spotifyService->getSpotifyPlaylists($spotifyToken);
-		return $this->json($spotifyR);
-		// ENREGISTRER
+		$lastToken = $this->spotifyService->getLastToken($userDb);
+		$musicFromSpotify = $this->spotifyService->getOsuMusic($osuT, $lastToken);
+		return $this->json($musicFromSpotify);
 	}
-	
+
 	/**
 	 * @Route("/createPlaylist", name="createPlaylist")
 	 */
 	public function createPlaylist(Request $request): Response
 	{
 		$data = json_decode($request->getContent(), true);
-		// var_dump($data["name"]);
 		/** @var User $user */
 		$entityManager = $this->getDoctrine()->getManager();
 		$userDb = $entityManager->getRepository(User::class)->findAll();
-		$rSpotify = $this->spotifyService->createPlaylist($userDb, $data);
+		$lastToken = $this->spotifyService->getLastToken($userDb);
+		$rSpotify = $this->spotifyService->createPlaylist($lastToken, $data);
 		return $this->json($rSpotify);
-
-
-		// $params = json_decode($request->getContent(), true);
-		// if(!isset($params["pseudo"]) || empty($params['pseudo'])){
-		// 	throw new HttpException(400, 'Missing pseudo parameter.');
-		// }
-		// $osuT = $this->osuService->getOsuToken($params['pseudo']);
-		// $entityManager = $this->getDoctrine()->getManager();
-		// $userDb = $entityManager->getRepository(User::class)->findAll();
-		// $musicFromSpotify = $this->spotifyService->getOsuMusic($osuT, $userDb);
-		// return $this->json($musicFromSpotify);
-
-
-
 	}
 	
 	/**
@@ -205,23 +186,24 @@ class DefaultController extends AbstractController
 		return $this->json('error.');
 	}
 	
-	/**
-	 * @Route("/userToken", name="userToken")
-	 */
-	public function userToken(Request $request): Response
-	{
-		/** @var User $user */
-		$user = $this->userService->getUserFromRequest($request);
-		// return $user;
-		if (null === $user) {
-			return new Response('Unauthorized', 401);
-		}
-		var_dump($user->getTokenSpotify());
-		$spotifyToken = $user->getTokenSpotify();
-	}
-	
 }
 
+// ---------- Routes inutilisées ----------
+
+	// /**
+	//  * @Route("/userToken", name="userToken")
+	//  */
+	// public function userToken(Request $request): Response
+	// {
+	// 	/** @var User $user */
+	// 	$user = $this->userService->getUserFromRequest($request);
+	// 	// return $user;
+	// 	if (null === $user) {
+	// 		return new Response('Unauthorized', 401);
+	// 	}
+	// 	var_dump($user->getTokenSpotify());
+	// 	$spotifyToken = $user->getTokenSpotify();
+	// }
 
 	// /**
 	//  * @Route("/update", name="update")
