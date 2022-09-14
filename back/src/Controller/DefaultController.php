@@ -64,7 +64,7 @@ class DefaultController extends AbstractController
 		$userDb = $entityManager->getRepository(User::class)->findAll();
 		/** @var User $user */
 		$user = $this->userService->getUserFromRequest($request);
-		return $user;
+		// return $user;
 		if (null === $user) {
 			return new Response('Unauthorized', 401);
 		}
@@ -121,13 +121,10 @@ class DefaultController extends AbstractController
 		$tokenUser = bin2hex($bytes);
 		$newUser = new User();
 		$newUser->setTokenSpotify($spotifyAccessToken);
-		// token de sécurité -> correspond à un token spotify dans la db
 		$newUser->setTokenUser($tokenUser);
 		$entityManager->persist($newUser);
 		$entityManager->flush();
-		// RENVOI VERS GETTOKEN AVEC LE TOKEN SECURISÉ EN PARAM --> RENVOIE VERS LE FRONT QUI MET LE TOKEN EN LOCAL STORAGE
-		return $this->redirect("http://127.00.1:8081/getToken?token=" . $tokenUser);
-		// return $this->redirect("http://uso.jael-beining.fr/getToken?token=" . $tokenUser);
+		return $this->redirect("http://127.00.1:3000/getToken?token=" . $tokenUser);
 	}
 
 	/**
@@ -136,19 +133,19 @@ class DefaultController extends AbstractController
 	public function pseudo(Request $request): Response
 	{
 		$params = json_decode($request->getContent(), true);
-		$params["pseudo"] = "Yosh1ko";
-		// return $this->json($params);
 		if(!isset($params["pseudo"]) || empty($params['pseudo'])){
 			throw new HttpException(400, 'Missing pseudo parameter.');
 		}
-		// osuT = toutes les données du profil OSU
 		$osuT = $this->osuService->getOsuToken($params['pseudo']);
 		$entityManager = $this->getDoctrine()->getManager();
 		$userDb = $entityManager->getRepository(User::class)->findAll();
-		$lastToken = $this->spotifyService->getLastToken($userDb);
-		return $this->json($lastToken);
-		// lastToken = tokenSpotify
-		$musicFromSpotify = $this->spotifyService->getOsuMusic($osuT, $lastToken);
+		$lastToken = $params["token"];
+		$thisUserDb = $entityManager->getRepository(User::class)->findOneBy(
+			[
+				'tokenUser' => $lastToken
+			]
+		);
+		$musicFromSpotify = $this->spotifyService->getOsuMusic($osuT, $thisUserDb);
 		return $this->json($musicFromSpotify);
 	}
 
@@ -157,14 +154,18 @@ class DefaultController extends AbstractController
 	 */
 	public function createPlaylist(Request $request): Response
 	{
-		//RÉCUPÉRER LE TOKENUSER FRONT DEPUIS CETTE REQUÊTE
 		$data = json_decode($request->getContent(), true);
-		return $this->json($data);
 		/** @var User $user */
 		$entityManager = $this->getDoctrine()->getManager();
-		$userDb = $entityManager->getRepository(User::class)->findAll();
-		$lastToken = $this->spotifyService->getLastToken($userDb);
-		$rSpotify = $this->spotifyService->createPlaylist($lastToken, $data);
+		$frontToken = $data["token"];
+		$thisUserDb = $entityManager->getRepository(User::class)->findOneBy(
+			[
+				'tokenUser' => $frontToken
+			]
+		);
+		$userSpotifyToken = $thisUserDb->getTokenSpotify();
+		$rSpotify = $this->spotifyService->createPlaylist($userSpotifyToken, $data);
+		// $rSpotify = $this->spotifyService->createPlaylist($frontToken, $thisUserDb);
 		return $this->json($rSpotify);
 	}
 	

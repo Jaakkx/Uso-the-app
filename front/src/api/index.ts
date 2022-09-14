@@ -3,9 +3,9 @@ import { OsuUser } from '../decl/osuUser.decl';
 import { PlaylistReturn } from '../decl/playlistReturn.decl';
 
 export const getOsuPseudo = async (user: OsuUser): Promise<OsuUser>=> {
-    try{
+    try{        
         const res = await axios.post(
-            `${process.env.REACT_APP_BASE_URL}/pseudo`,
+            `${process.env.REACT_APP_BASE_URL}/pseudo?`,
             user,
             { headers: {    
                     'Authorization': localStorage.getItem("userToken") ?? "",

@@ -66,18 +66,18 @@ class SpotifyService
 		return $SpotifyDataTab;
 	}
 	
-		public function getOsuMusic($osuT, $lastToken){
+		public function getOsuMusic($osuT, $thisUserDb){
 			$tab = [];
 			$returnTab = [];
+			$spotifyToken = $thisUserDb->getTokenSpotify();
 			foreach($osuT[0] as $key => $value){
 				$title = $value["titre"];
 				$urlMusics = sprintf("https://api.spotify.com/v1/search?q=track:%s&type=track&market=FR&limit=1", $title);
-				// Vérifier si les musiques récupérées sur le profile OSU rentré sont disponibles sur spotify
 				$osuTrack = $this->httpClient->request('GET', $urlMusics, [
 					'headers'=>[
 						'Accept' => 'application/json',
 						'Content-Type' => 'application/x-www-form-urlencoded',
-						'Authorization' => 'Bearer '. $lastToken,
+						'Authorization' => 'Bearer '. $spotifyToken,
 					],
 					'body'=>[
 					],
@@ -99,7 +99,7 @@ class SpotifyService
 		
 		public function getSpotifyId($lastToken): string
 		{
-			$spotifyBaseUrl = "https://api.spotify.com/v1/me/playlists";
+			$spotifyBaseUrl = "https://api.spotify.com/v1/me/";
 			$response = $this->httpClient->request('GET', $spotifyBaseUrl, [
 				'headers'=>[
 					'Content-Type' => 'application/x-www-form-urlencoded',
@@ -107,38 +107,38 @@ class SpotifyService
 				],
 			]);
 			$response = json_decode($response->getContent(), true);
-			return $response["items"][0]["owner"]["id"];
+			// var_dump($response);
+			return $response["id"];
 		}
 
-	public function createPlaylist($lastToken, $dataSpotify):array
+	public function createPlaylist($userSpotifyToken, $dataSpotify):array
 	{
 		$spotify_base_url = $this->parameterBag->get('spotify_base_url');
-		$getSpotifyId = $this->getSpotifyId($lastToken);
+		$getSpotifyId = $this->getSpotifyId($userSpotifyToken);
 		$newPlaylistName = $dataSpotify["name"];
 		$newPlaylistDesc = "Playlist créée par USO";
 		$newPlaylistState = 'true';
 		$playlistData = sprintf('{"name": "%s", "description": "%s", "public": %s}', $newPlaylistName, $newPlaylistDesc, $newPlaylistState);
 		$userId = $getSpotifyId;
 		$urlCreatePlaylist = sprintf('%susers/%s/playlists',$spotify_base_url, $userId);
-		// Créer une playlist avec les paramètres rentrés depuis le front
 		$createPlaylist = $this->httpClient->request('POST', $urlCreatePlaylist,[
 			'headers' =>[
 				'Content-Type' => 'application/json',
-				'Authorization' => 'Bearer '. $lastToken,
+				'Authorization' => 'Bearer '. $userSpotifyToken,
 			],
 			'body' => $playlistData
 		]);
 		$newPlaylistId = json_decode($createPlaylist->getContent(),true);
 		$newPlaylistId = $newPlaylistId["id"];
-		$addMusicToPlaylist = $this->addMusicToPlaylist($lastToken, $newPlaylistId, $dataSpotify);
+		$addMusicToPlaylist = $this->addMusicToPlaylist($userSpotifyToken, $newPlaylistId, $dataSpotify);
 		return $addMusicToPlaylist;
 	}
 	
-		public function addMusicToPlaylist($lastToken, $newPlaylistId, $dataSpotify){
+		public function addMusicToPlaylist($userSpotifyToken, $newPlaylistId, $dataSpotify){
 			$spotify_base_url = $this->parameterBag->get('spotify_base_url');
 			$musicsIdArr = [];
 			$headers = [
-				'Authorization' => 'Bearer ' . $lastToken,
+				'Authorization' => 'Bearer ' . $userSpotifyToken,
 				'Content-Type' => 'application/json',
 			];
 			$body = '{}';
@@ -154,7 +154,6 @@ class SpotifyService
 				}
 				$url = sprintf("playlists/%s/tracks?uris=%s", $playlistId, $tracksUrl);
 			$searchUrl = $spotify_base_url . $url;
-			// Mettre dans la playlist rentrée précédemment, les musiques qui ont été choisies par l'utilisateur
 			$response = $this->httpClient->request('POST', $searchUrl, [
 					'headers'=> $headers,
 					'body' => json_encode($body),
@@ -164,7 +163,6 @@ class SpotifyService
 		}
 		
 		public function getLastToken($userDb){
-			// ICI, NE PAS RENVOYER LE TOKEN SPOTIFY MAIS LE TOKEN CORRESPONDANT DANS LA DB
 				foreach($userDb as $data){
 			$return [] = [
 				'id' => $data->getId(),
@@ -172,12 +170,8 @@ class SpotifyService
 				'tokenUser' => $data->getTokenUser(),
 			];
 		}
-		foreach ($return as $rr){
-			// TROUVER COMMENT RECUPERER LE TOKENUSER PUIS COMPARER DANS LA DB AU TOKENSPOTIFY
-			echo $return[1]["tokenUser"];
-		};
-		$lastToken = $return[sizeof($return) - 1]["tokenSpotify"];
-		return $lastToken;
+		$frontToken = $return[22]["tokenUser"];
+		return $frontToken;
 	}
 }
 

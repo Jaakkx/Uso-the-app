@@ -92,9 +92,10 @@ class SpotifyPage extends React.Component<GetMusic>{
 
         const { name } = this.state;
         const music = this.props.UseValue;
+        const token = localStorage?.getItem("userToken")||"";
         try {
 
-            const playlist = await sendPlaylist({ name, music });
+            const playlist = await sendPlaylist({ name, music, token });
 
         } catch (error) {
             alert(error);

@@ -18,6 +18,7 @@ class SearchOsu extends React.Component<Props>{
         linkAvatar:"",
         beatmap:"",
         realPseudo:"",
+        token:"",
     }
 
     color = (ok:boolean, id:string) => {
@@ -59,24 +60,21 @@ class SearchOsu extends React.Component<Props>{
         this.setState({idTab:interTab});
         this.props.onSuccess({idTab:interTab});
         document.getElementById("number"+number)!.className = "display-none";
-        console.log(document.getElementById("number"+number));
-        
     }
     
     handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         
         const { pseudo } = this.state;
+        const token = localStorage?.getItem("userToken")||"";
+        
         try {
-            
             this.setState({musiquesList:[]});
-            const login = await getOsuPseudo({ pseudo });
+            const login = await getOsuPseudo({ pseudo, token });
             this.setState({musiquesList: login});
             this.setState({linkAvatar:this.state.musiquesList[1]["avatar"]});
             this.setState({beatmap:this.state.musiquesList[1]["baetmapsCount"]});
-            this.setState({realPseudo:this.state.pseudo});  
-            console.log(this.state.musiquesList[0]);
-              
+            this.setState({realPseudo:this.state.pseudo});
             
         } catch (error) {
             alert(error);

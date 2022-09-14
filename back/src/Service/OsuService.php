@@ -32,12 +32,11 @@ class OsuService
 		$this->parameterBag = $paramaterBag;
 	}
 	public function getOsuToken(string $pseudo): array
-	{
+	{	
 		$osuBaseUrl = $this->parameterBag->get('osu_base_url');
 		$osuUserUrl = $this->parameterBag->get('osu_user_url');
 		$osuSecret = $this->parameterBag->get('osu_secret');
 		$osuClientId = $this->parameterBag->get('osu_client_id');
-		//Récupérer le token de l'api OSU pour faire des requêtes à cette dernière
 		$response = $this->httpClient->request('POST', $osuBaseUrl, [
 			'headers'=>['Accept' => 'application/json'],
 			'body'=>[
@@ -51,7 +50,6 @@ class OsuService
 		$authorizationHeader = sprintf('Bearer %s', $token);
 		$osuUserPseudo = $pseudo;
 		$osuUserIdUrl = $osuUserUrl . $osuUserPseudo;
-		//Récupérer le profile du joueur OSU associé au pseudo rentré dans le front
 		$responseUserId = $this->httpClient->request('GET', $osuUserIdUrl, [
 			'headers'=>[
 				'Accept' => 'application/json',
@@ -70,7 +68,6 @@ class OsuService
 			$musicRenderType = "most_played";
 			$musicRenderLimit = 200;
 			$osuMusicSearchUrl = sprintf("https://osu.ppy.sh/api/v2/users/%s/beatmapsets/%s?limit=%s", $userId, $musicRenderType, $musicRenderLimit);
-			// Récupérer la liste des musiques ("Beatmaps") jouées par le joueur récupéré
 			$responseBeatmaps = $this->httpClient->request('GET', $osuMusicSearchUrl, [
 				'headers'=>[
 					'Accept' => 'application/json',
