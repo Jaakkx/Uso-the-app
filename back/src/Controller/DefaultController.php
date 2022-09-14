@@ -78,7 +78,8 @@ class DefaultController extends AbstractController
 	 */
 	public function oauth(): Response
 	{
-		return $this->redirect('https://accounts.spotify.com/authorize?client_id=29ced1155da2459f8e661f5beac00a74&response_type=code&redirect_uri=http://uso-api.jael-beining.fr/exchange_token&scope=user-read-private,playlist-modify-private,playlist-modify-public');
+		return $this->redirect('https://accounts.spotify.com/authorize?client_id=29ced1155da2459f8e661f5beac00a74&response_type=code&redirect_uri=http://127.0.0.1:8081/exchange_token&scope=user-read-private,playlist-modify-private,playlist-modify-public');
+			// return $this->redirect('https://accounts.spotify.com/authorize?client_id=29ced1155da2459f8e661f5beac00a74&response_type=code&redirect_uri=http://uso-api.jael-beining.fr/exchange_token&scope=user-read-private,playlist-modify-private,playlist-modify-public');
 	}
 	
 	/**
@@ -91,7 +92,7 @@ class DefaultController extends AbstractController
 		$spotifySecret = $this->parameterBag->get('spotify_secret');
 		try {
 			$body = [
-				'redirect_uri' => 'http://uso-api.jael-beining.fr/exchange_token',
+				'redirect_uri' => 'http://127.0.0.1:8081/exchange_token',
 				'code' => $authorization_code,
 				'grant_type' => 'authorization_code'
 			];
@@ -110,6 +111,7 @@ class DefaultController extends AbstractController
 			);
 			$json_response = json_decode($response->getContent(), true);
 		} catch (\Exception $e) {
+			return $this->json("error?");
 			return $this->json($e->getMessage());
 		}
 		/** @var User $user */
@@ -119,11 +121,13 @@ class DefaultController extends AbstractController
 		$tokenUser = bin2hex($bytes);
 		$newUser = new User();
 		$newUser->setTokenSpotify($spotifyAccessToken);
+		// token de sécurité -> correspond à un token spotify dans la db
 		$newUser->setTokenUser($tokenUser);
 		$entityManager->persist($newUser);
 		$entityManager->flush();
-		// return $this->redirect("http://127.00.1:8081/");
-		return $this->redirect("http://uso.jael-beining.fr/getToken?token=" . $tokenUser);
+		// RENVOI VERS GETTOKEN AVEC LE TOKEN SECURISÉ EN PARAM --> RENVOIE VERS LE FRONT QUI MET LE TOKEN EN LOCAL STORAGE
+		return $this->redirect("http://127.00.1:8081/getToken?token=" . $tokenUser);
+		// return $this->redirect("http://uso.jael-beining.fr/getToken?token=" . $tokenUser);
 	}
 
 	/**
@@ -132,13 +136,18 @@ class DefaultController extends AbstractController
 	public function pseudo(Request $request): Response
 	{
 		$params = json_decode($request->getContent(), true);
+		$params["pseudo"] = "Yosh1ko";
+		// return $this->json($params);
 		if(!isset($params["pseudo"]) || empty($params['pseudo'])){
 			throw new HttpException(400, 'Missing pseudo parameter.');
 		}
+		// osuT = toutes les données du profil OSU
 		$osuT = $this->osuService->getOsuToken($params['pseudo']);
 		$entityManager = $this->getDoctrine()->getManager();
 		$userDb = $entityManager->getRepository(User::class)->findAll();
 		$lastToken = $this->spotifyService->getLastToken($userDb);
+		return $this->json($lastToken);
+		// lastToken = tokenSpotify
 		$musicFromSpotify = $this->spotifyService->getOsuMusic($osuT, $lastToken);
 		return $this->json($musicFromSpotify);
 	}
@@ -148,7 +157,9 @@ class DefaultController extends AbstractController
 	 */
 	public function createPlaylist(Request $request): Response
 	{
+		//RÉCUPÉRER LE TOKENUSER FRONT DEPUIS CETTE REQUÊTE
 		$data = json_decode($request->getContent(), true);
+		return $this->json($data);
 		/** @var User $user */
 		$entityManager = $this->getDoctrine()->getManager();
 		$userDb = $entityManager->getRepository(User::class)->findAll();

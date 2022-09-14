@@ -164,12 +164,18 @@ class SpotifyService
 		}
 		
 		public function getLastToken($userDb){
+			// ICI, NE PAS RENVOYER LE TOKEN SPOTIFY MAIS LE TOKEN CORRESPONDANT DANS LA DB
 				foreach($userDb as $data){
 			$return [] = [
 				'id' => $data->getId(),
 				'tokenSpotify' => $data->getTokenSpotify(),
+				'tokenUser' => $data->getTokenUser(),
 			];
 		}
+		foreach ($return as $rr){
+			// TROUVER COMMENT RECUPERER LE TOKENUSER PUIS COMPARER DANS LA DB AU TOKENSPOTIFY
+			echo $return[1]["tokenUser"];
+		};
 		$lastToken = $return[sizeof($return) - 1]["tokenSpotify"];
 		return $lastToken;
 	}
