@@ -89,6 +89,9 @@ class SpotifyService
 					array_push($tab, ["id" => $musicId, "title" => $musicTitle]);
 				}
 			}
+			// Delete duplicate musics
+			$tab = array_unique($tab, SORT_REGULAR);
+			//
 			if (sizeof($tab) === 0){
 				return "Pas de musique sur ce joueur";
 			}
@@ -107,7 +110,6 @@ class SpotifyService
 				],
 			]);
 			$response = json_decode($response->getContent(), true);
-			// var_dump($response);
 			return $response["id"];
 		}
 

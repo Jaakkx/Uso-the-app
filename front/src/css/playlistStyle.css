@@ -206,9 +206,9 @@ button.submitButton:hover{
 /**************************************************************************************/
 /*Formulaire*/
 .osuForm{
-
+    min-width: 200px;
     display: flex;
-    margin-left: 60px;
+    /* margin-left: 60px; */
 
     border: solid 1px black;
     border-radius: 20px;
