@@ -22,18 +22,13 @@ class SearchOsu extends React.Component<Props>{
     }
 
     color = (ok:boolean, id:string) => {
-        console.log("----------");
         let color = ["vert","bleu", "rose", "orange", "jaune"];
         let colorValue = Math.floor(Math.random() * (color.length ));
         if(ok){
             if(this.state.hovered){
-                console.log("hovered");
-                
                 if(colorValue == this.state.oldColor){
                     colorValue = Math.floor(Math.random() * (color.length ));
-                }else{
-                    console.log("IN");
-                    
+                }else{                    
                     this.setState({oldColor:colorValue});
                     this.setState({color : color[colorValue]});
                     document.getElementById("number"+id)!.className = "music music1 "+this.state.color;
@@ -56,9 +51,7 @@ class SearchOsu extends React.Component<Props>{
         this.setState({ pseudo: e.currentTarget.value});
     }
 
-    onClick = (id:string, number:string) => {  
-        console.log("click");
-        
+    onClick = (id:string, number:string) => {          
         this.setState({idTab:[]});
         let interTab = this.state.idTab;
         interTab.push(id);

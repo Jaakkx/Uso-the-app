@@ -93,6 +93,10 @@ class OsuService
 			$musicTitle = str_replace(" (Swing Arrangement)", "", $musicTitle);
 			$musicTitle = str_replace(' (From "Kaguya-sama: Love is War")', "", $musicTitle);
 			$musicTitle = str_replace('[ISORA arrange]', "", $musicTitle);
+			$musicTitle = str_replace('[- karaoke]', "", $musicTitle);
+			$musicTitle = str_replace('[- Cover]', "", $musicTitle);
+			$musicTitle = str_replace('[opening]', "", $musicTitle);
+			$musicTitle = str_replace('- edit', "", $musicTitle);
 			if (strpos($musicTitle, "feat")){
 				$musicTitle = stristr($musicTitle, " feat", true);
 			}

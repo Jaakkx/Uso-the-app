@@ -22,10 +22,9 @@ class SpotifyPage extends React.Component<GetMusic>{
     color = (ok:boolean, id:string) => {
         let color = ["vert","bleu", "rose", "orange", "jaune"];
         let colorValue = Math.floor(Math.random() * (color.length ));
-        
-        
+         
         if(ok){
-                if(colorValue == this.state.oldColor){
+                if(colorValue === this.state.oldColor){
                     colorValue = Math.floor(Math.random() * (color.length ));
                 }else{
                     this.setState({oldColor:colorValue});
@@ -71,13 +70,9 @@ class SpotifyPage extends React.Component<GetMusic>{
 
     onClick = (id:string, number:string) => {     
         document.getElementById("number"+id)!.className = "music music1 "+this.state.color;
-        console.log(this.props.UseValue["idTab"]);
-        
         this.props.UseValue["idTab"].splice(parseInt(number), 1);
-        
+        this.setState({ hovered: true });
     }
-
-
 
     componentDidUpdate(prevstate:any){
         prevstate=this.state.tab;
@@ -138,7 +133,7 @@ class SpotifyPage extends React.Component<GetMusic>{
                             <path d="M9.66797 14C9.66797 10.134 12.802 7 16.668 7" stroke="black" stroke-width="0.8"/>
                             <path d="M16.6667 7L0 7" stroke="black" stroke-width="0.8"/>
                         </svg>
-                        Créer la playlist
+                        Valider
                     </button>
 
                 </form>
@@ -150,9 +145,7 @@ class SpotifyPage extends React.Component<GetMusic>{
                                 className={"music music2"}
                                 id={"passNumber"+item} 
                                 onClick={() => {                                    
-                                    this.onClick(this.props.UseValue["idTab"][item]["id"],item)
-                                    // console.log(this.props.UseValue["idTab"][item]["id"]);
-                                    
+                                    this.onClick(this.props.UseValue["idTab"][item]["id"],item)                                                                        
                                 } 
                                 } 
                                 onMouseEnter={() => {

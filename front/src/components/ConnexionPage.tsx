@@ -6,7 +6,7 @@ import TitreConnexion from "./TitreConnexion";
 const ConnexionPage = () => {
 
     return(
-        <div>
+        <div className="homeContainer">
             <Banner />
             <div className="blocConnect">
                 <TitreConnexion />

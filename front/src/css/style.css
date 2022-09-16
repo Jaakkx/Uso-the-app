@@ -13,6 +13,10 @@ html{
     box-sizing: border-box;
 }
 
+*::selection{
+    /* opacity: 0; */
+}
+
 body {
     background-repeat: no-repeat;
     background-position-x: right;
@@ -22,6 +26,12 @@ body {
 
 .display-none{
     display: none !important;
+}
+
+.homeContainer{
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
 }
 
 .navbar {
@@ -59,11 +69,32 @@ a.spotifyConnexion{
     border: black solid 1px;
     width: 70%;
     height: 40vh;
+    max-height: 25vw;
     margin-top: 8%;
     float: right;
     border-top-left-radius: 222px 222px;
     border-bottom-left-radius: 222px 222px;
+    /* background-color: #FD7E40; */
+}
+
+.basicOrange{
     background-color: #FD7E40;
+}
+
+.basicVert{
+    background-color: #3DB372;
+}
+
+.basicBleu{
+    background-color: #4A7DF2;
+}
+
+.basicRose{
+    background-color: #F31EEB;
+}
+
+.basicJaune{
+    background-color: #F9B125;
 }
 
 a.spotifyConnexion span{
@@ -206,14 +237,14 @@ li {
 
 .title{
     position: relative; 
-    margin-top: 7%;
-    margin-left: 5%;
-    width: 70%;
+    margin-top: 5vh;
+    margin-left: 3vw;
+    /* width: 70vw; */
 }
 
 h1{
     font-family: Degular;
-    font-size: 7rem;
+    font-size: 12vh;
     font-style: normal;
     font-weight: 600;
     line-height: 90px;
@@ -226,9 +257,9 @@ h1:first-of-type{
 }
 
 h1.playlistTitle:first-of-type{
-    font-size: 6rem;
-    margin-left: 117px;
-    margin-top: 97.5px;
+    font-size: 10vh;
+    margin-left: 5vw;
+    margin-top: 8vh;
 }
 
 
@@ -290,7 +321,7 @@ button{
     width: 50%;
 }
 h2{
-    font-size: 3.7rem;
+    font-size: 6vh;
     font-family: Degular;
     font-style: normal;
     font-weight: 600;

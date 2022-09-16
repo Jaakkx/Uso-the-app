@@ -10,27 +10,40 @@ class Button extends React.Component<ButtonProps>{
         oldColor:0,
         color:"jaune",
     }
-
-    color = () => {
-        let color = ["vert","bleu", "rose", "orange", "jaune"];
-        let colorValue = Math.floor(Math.random() * (color.length ));
-        if(this.state.hovered){
-            if(colorValue == this.state.oldColor){
+    
+    color = () => {        
+        let color = ["basicVert","basicBleu", "basicRose", "basicOrange", "basicJaune"];     
+        let colorValue = Math.floor(Math.random() * (color.length ));                
+        // if(this.state.hovered){
+            if(colorValue === this.state.oldColor){                                
                 colorValue = Math.floor(Math.random() * (color.length ));
-            }else{
+            }
+            // else{                
                 this.setState({oldColor:colorValue});
                 this.setState({color : color[colorValue]});
-            }
-        }
+            // }
+        // }
     }
-
     onEnter = () => {
-        this.setState({ hovered: true });
+        this.setState({ hovered: true });        
         this.color();
     }
-
+    
     onLeave = () => {
         this.setState({ hovered: false});
+        this.color();
+    }
+    
+    componentDidMount(): void {
+        console.log("DidMount");
+        this.color()
+        
+        
+    }
+
+    onLoad = () => {
+        console.log("onload");
+        this.setState({ hovered: false });
         this.color();
     }
 

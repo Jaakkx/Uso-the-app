@@ -121,6 +121,7 @@ class SpotifyService
 		$newPlaylistDesc = "Playlist créée par USO";
 		$newPlaylistState = 'true';
 		$playlistData = sprintf('{"name": "%s", "description": "%s", "public": %s}', $newPlaylistName, $newPlaylistDesc, $newPlaylistState);
+		var_dump($playlistData);
 		$userId = $getSpotifyId;
 		$urlCreatePlaylist = sprintf('%susers/%s/playlists',$spotify_base_url, $userId);
 		$createPlaylist = $this->httpClient->request('POST', $urlCreatePlaylist,[

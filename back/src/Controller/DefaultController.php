@@ -165,7 +165,6 @@ class DefaultController extends AbstractController
 		);
 		$userSpotifyToken = $thisUserDb->getTokenSpotify();
 		$rSpotify = $this->spotifyService->createPlaylist($userSpotifyToken, $data);
-		// $rSpotify = $this->spotifyService->createPlaylist($frontToken, $thisUserDb);
 		return $this->json($rSpotify);
 	}
 	
