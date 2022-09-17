@@ -1,5 +1,9 @@
 /***********************************************************************************/
 
+.music::selection{
+    opacity: 0;
+}
+
 .bloc1{
     position: relative;
     border: solid black 1px;
